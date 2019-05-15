@@ -163,6 +163,9 @@ async function main() {
   const job = new CronJob({
     cronTime: '*/2 7-18 * * 1-5',
     onTick: async () => {
+      // Make a request to the app so it doesn't idle
+      request.get('slack-status-updater.herokuapp.com')
+
       console.log("Running Job..")
       await main()
     },
