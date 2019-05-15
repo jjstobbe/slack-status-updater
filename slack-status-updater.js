@@ -1,5 +1,6 @@
 var request = require('request');
 const EWS = require('node-ews');
+var CronJob = require('cron').CronJob;
 
 // exchange server connection info
 const ewsServer = new EWS({
@@ -105,8 +106,7 @@ function updateStatus(body) {
 
 const lunchEmojis = [':lunchables:', ':burger:', ':hamburger:', ':chompy:'];
 
-// Main Script
-(async function() {
+async function main() {
   const { Id, ChangeKey } = await fetchCalenderInfo()
   
   const events = await fetchCalendarEvents(Id, ChangeKey);
@@ -146,4 +146,18 @@ const lunchEmojis = [':lunchables:', ':burger:', ':hamburger:', ':chompy:'];
       "status_emoji": ":calendar:",
     })
   }
+}
+
+(function() {
+  const job = new CronJob({
+    cronTime: '*/2 * * * 1-5',
+    onTick: async () => {
+      console.log("Running Job..")
+      await main()
+    },
+    start: true,
+    timeZone: "America/Los_Angeles"
+  });
+  
+  job.start();
 })();
