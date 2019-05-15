@@ -4,7 +4,7 @@
   "description": "",
   "main": "slackStatusUpdater.js",
   "scripts": {
-    "run": "node slack-status-updater.js"
+    "start": "node slack-status-updater.js"
   },
   "author": "Jack Stobbe",
   "license": "MIT",

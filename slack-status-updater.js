@@ -1,11 +1,10 @@
 var request = require('request');
 const EWS = require('node-ews');
-const credentials = require('./credentials.json');
 
 // exchange server connection info
 const ewsServer = new EWS({
-  username: credentials.office365username || process.env.office365username,
-  password: credentials.office365password || process.env.office365password,
+  username: process.env.office365username,
+  password: process.env.office365password,
   host: 'https://outlook.office365.com',
   auth: 'basic'
 });
@@ -98,7 +97,7 @@ async function fetchCalendarEvents(Id, ChangeKey) {
 function updateStatus(body) {
   const encodedBody = encodeURIComponent(JSON.stringify(body))
 
-  const token = credentials.slackUserToken || process.env.slackUserToken
+  const token = process.env.slackUserToken
   const url = `http://slack.com/api/users.profile.set?token=${token}&profile=${encodedBody}`;
   
   request.get(url);
