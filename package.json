@@ -1,0 +1,17 @@
+{
+  "name": "slackstatusupdater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "slackStatusUpdater.js",
+  "scripts": {
+    "run": "node slack-status-updater.js"
+  },
+  "author": "Jack Stobbe",
+  "license": "MIT",
+  "dependencies": {
+    "node-ews": "^3.2.4",
+    "node-outlook": "^1.1.8",
+    "request": "^2.88.0",
+    "simple-oauth2": "^2.2.1"
+  }
+}
