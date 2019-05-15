@@ -161,3 +161,10 @@ async function main() {
   
   job.start();
 })();
+
+// Dummy express API to server something on a port for heroku
+const express = require('express')
+const app = express()
+
+app.get('/', (req, res) => res.send('Hello From Slack Status Updater'))
+app.listen(process.env.PORT || 5000)

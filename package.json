@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "cron": "^1.7.1",
+    "express": "^4.16.4",
     "node-ews": "^3.2.4",
     "node-outlook": "^1.1.8",
     "request": "^2.88.0",
