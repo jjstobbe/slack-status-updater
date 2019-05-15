@@ -4,8 +4,8 @@ const credentials = require('./credentials.json');
 
 // exchange server connection info
 const ewsServer = new EWS({
-  username: credentials.office365username,
-  password: credentials.office365password,
+  username: credentials.office365username || process.env.office365username,
+  password: credentials.office365password || process.env.office365password,
   host: 'https://outlook.office365.com',
   auth: 'basic'
 });
@@ -96,10 +96,12 @@ async function fetchCalendarEvents(Id, ChangeKey) {
 }
 
 function updateStatus(body) {
-    let encodedBody = encodeURIComponent(JSON.stringify(body))
-    let url = `http://slack.com/api/users.profile.set?token=${credentials.slackUserToken}&profile=${encodedBody}`;
-    
-    request.get(url);
+  const encodedBody = encodeURIComponent(JSON.stringify(body))
+
+  const token = credentials.slackUserToken || process.env.slackUserToken
+  const url = `http://slack.com/api/users.profile.set?token=${token}&profile=${encodedBody}`;
+  
+  request.get(url);
 }
 
 const lunchEmojis = [':lunchables:', ':burger:', ':hamburger:', ':chompy:'];
