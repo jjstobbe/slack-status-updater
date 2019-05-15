@@ -129,16 +129,27 @@ async function main() {
   });
 
   const primaryEvent = sortedEvents[0];
+  const subject = primaryEvent.subject.toLowerCase();
 
-  if (primaryEvent.subject.toLowerCase().indexOf('standup') > -1) {
+  if (subject.indexOf('standup') > -1) {
     updateStatus({
       "status_text": "Standup",
       "status_emoji": ":standup:",
     })
-  } else if (primaryEvent.subject.toLowerCase().indexOf('lunch') > -1) {
+  } else if (subject.indexOf('ssb') > -1) {
+    updateStatus({
+      "status_text": "Smash Match",
+      "status_emoji": ":smash:",
+    })
+  } else if (subject.indexOf('lunch') > -1) {
     updateStatus({
       "status_text": "Lunch",
       "status_emoji": lunchEmojis[Math.floor(Math.random() * lunchEmojis.length)],
+    })
+  } else if (subject.indexOf('1:1') > -1) {
+    updateStatus({
+      "status_text": "",
+      "status_emoji": ":1on1:",
     })
   } else {
     updateStatus({
@@ -150,13 +161,13 @@ async function main() {
 
 (function() {
   const job = new CronJob({
-    cronTime: '*/2 * * * 1-5',
+    cronTime: '*/2 7-18 * * 1-5',
     onTick: async () => {
       console.log("Running Job..")
       await main()
     },
     start: true,
-    timeZone: "America/Los_Angeles"
+    timeZone: "America/North_Dakota/New_Salem"
   });
   
   job.start();
