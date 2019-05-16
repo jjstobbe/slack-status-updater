@@ -130,31 +130,43 @@ async function main() {
 
   const primaryEvent = sortedEvents[0];
   const subject = primaryEvent.subject.toLowerCase();
+  const endTime = primaryEvent.endDate.getTime() / 1000;
 
   if (subject.indexOf('standup') > -1) {
     updateStatus({
       "status_text": "Standup",
       "status_emoji": ":standup:",
+      "status_expiration": endTime
     })
   } else if (subject.indexOf('ssb') > -1) {
     updateStatus({
       "status_text": "Smash Match",
       "status_emoji": ":smash:",
+      "status_expiration": endTime
     })
   } else if (subject.indexOf('lunch') > -1) {
     updateStatus({
       "status_text": "Lunch",
       "status_emoji": lunchEmojis[Math.floor(Math.random() * lunchEmojis.length)],
+      "status_expiration": endTime
     })
   } else if (subject.indexOf('1:1') > -1) {
     updateStatus({
       "status_text": "",
       "status_emoji": ":1on1:",
+      "status_expiration": endTime
+    })
+  } else if (subject.indexOf('all-hands') > -1) {
+    updateStatus({
+      "status_text": "All-Hands",
+      "status_emoji": ":hudl:",
+      "status_expiration": endTime
     })
   } else {
     updateStatus({
       "status_text": "In a meeting",
       "status_emoji": ":calendar:",
+      "status_expiration": endTime
     })
   }
 }
