@@ -78,9 +78,7 @@ async function fetchCalendarEvents(Id, ChangeKey) {
 
   return ewsServer.run(ewsFunction, ewsArgs)
     .then(result => {
-      let calendarItems = [];
-      try {
-        calendarItems = result.ResponseMessages.FindItemResponseMessage.RootFolder.Items.CalendarItem
+      const calendarItems = result.ResponseMessages.FindItemResponseMessage.RootFolder.Items.CalendarItem
         .map(item => {
           return {
             subject: item.Subject,
@@ -88,9 +86,6 @@ async function fetchCalendarEvents(Id, ChangeKey) {
             endDate: new Date(item.End),
           }
         })
-      } catch (e) {
-        console.log("Problem fetching events", e);
-      }
 
       return calendarItems
     })
@@ -98,6 +93,13 @@ async function fetchCalendarEvents(Id, ChangeKey) {
       console.log("Failure fetching calendar events", e);
       return null;
     })
+}
+
+function resetStatus() {
+  updateStatus({
+    "status_text": "",
+    "status_emoji": "",
+  })
 }
 
 function updateStatus(body) {
@@ -115,17 +117,12 @@ async function main() {
   const { Id, ChangeKey } = await fetchCalenderInfo()
   
   const events = await fetchCalendarEvents(Id, ChangeKey);
-
+  
   const currentTime = new Date();
-
   const currentEvents = events.filter(event => event.startDate <= currentTime && currentTime <= event.endDate);
 
   if (currentEvents.length == 0) {
-    updateStatus({
-      "status_text": "",
-      "status_emoji": "",
-    })
-
+    resetStatus();
     return;
   }
 
@@ -137,7 +134,7 @@ async function main() {
   const subject = primaryEvent.subject.toLowerCase();
   const endTime = primaryEvent.endDate.getTime() / 1000;
 
-  if (subject.indexOf('standup') > -1) {
+  if (subject.indexOf('standup') > -1 || subject.indexOf('stand-up') > -1) {
     updateStatus({
       "status_text": "Standup",
       "status_emoji": ":standup:",
@@ -181,10 +178,16 @@ async function main() {
     cronTime: '*/2 7-17 * * 1-5',
     onTick: async () => {
       // Make a request to the app so it doesn't idle
-      request.get('https://slack-status-updater.herokuapp.com/')
+      request.get('https://slack-status-updater.herokuapp.com/');
 
-      console.log("Running Job..")
-      await main()
+      console.log("Running Job..");
+
+      try {
+        await main();
+      } catch (e) {
+        console.log(e);
+        resetStatus();
+      }
     },
     start: true,
     timeZone: "America/North_Dakota/New_Salem"
@@ -193,7 +196,7 @@ async function main() {
   job.start();
 })();
 
-// Dummy express API to server something on a port for heroku
+// Dummy express API to serve something on a port for heroku
 const express = require('express')
 const app = express()
 
