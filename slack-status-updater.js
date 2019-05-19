@@ -78,7 +78,9 @@ async function fetchCalendarEvents(Id, ChangeKey) {
 
   return ewsServer.run(ewsFunction, ewsArgs)
     .then(result => {
-      const calendarItems = result.ResponseMessages.FindItemResponseMessage.RootFolder.Items.CalendarItem
+      let calendarItems = [];
+      try {
+        calendarItems = result.ResponseMessages.FindItemResponseMessage.RootFolder.Items.CalendarItem
         .map(item => {
           return {
             subject: item.Subject,
@@ -86,6 +88,9 @@ async function fetchCalendarEvents(Id, ChangeKey) {
             endDate: new Date(item.End),
           }
         })
+      } catch (e) {
+        console.log("Problem fetching events", e);
+      }
 
       return calendarItems
     })
