@@ -129,12 +129,33 @@ async function main() {
   const sortedEvents = currentEvents.sort((a, b) => {
     return b.startDate.getTime() - a.startDate.getTime()
   });
+  
+  const allDayEvents = sortedEvents.filter((event) => (event.endDate.getTime() - event.startDate.getTime()) >= 77760000);
 
-  const primaryEvent = sortedEvents[0];
+  const primaryEvent = allDayEvents.length > 0 ? allDayEvents[0] : sortedEvents[0];
+
   const subject = primaryEvent.subject.toLowerCase();
   const endTime = primaryEvent.endDate.getTime() / 1000;
 
-  if (subject.indexOf('standup') > -1 || subject.indexOf('stand-up') > -1) {
+  if (subject.indexOf('ooo') > -1) {
+    let status = "";
+    if (subject.indexOf('ooo - ') > -1 && subject.length > 6) {
+      const dashIndex = subject.indexOf('-');
+      status = primaryEvent.subject.substring(dashIndex + 2);
+    }
+
+    updateStatus({
+      "status_text": status,
+      "status_emoji": ":ooo:",
+      "status_expiration": endTime
+    })
+  } else if (subject.indexOf('vacation') > -1) {
+    updateStatus({
+      "status_text": "",
+      "status_emoji": ":palm_tree:",
+      "status_expiration": endTime
+    })
+  } else if (subject.indexOf('standup') > -1 || subject.indexOf('stand-up') > -1) {
     updateStatus({
       "status_text": "Standup",
       "status_emoji": ":standup:",
@@ -162,6 +183,12 @@ async function main() {
     updateStatus({
       "status_text": "All-Hands",
       "status_emoji": ":hudl:",
+      "status_expiration": endTime
+    })
+  } else if (subject.indexOf('new hire graduation') > -1) {
+    updateStatus({
+      "status_text": "New Hire Graduation",
+      "status_emoji": ":mortar_board:",
       "status_expiration": endTime
     })
   } else {
