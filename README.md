@@ -1,11 +1,11 @@
-# slackstatusupdater
+# Slack Status Updater!
 
 ## Overview
-Do you waste time setting your slack status multiple times a day?
+_Do you waste time setting your slack status multiple times a day?_
 
-Do you want to let your coworkers know if you're available?
+_Do you want to let your coworkers know if you're available?_
 
-Do you just hate the outlook extension that does this?
+_Do you just hate the outlook extension that does this?_
 
 Then this is the app for you!
 
@@ -24,16 +24,16 @@ Best part of all, it's completely free! This app is designed to run on Heroku's 
 1) Spin up a new project on [heroku](https://devcenter.heroku.com/articles/free-dyno-hours)
 2) git clone this repository onto the new heroku server
 3) Set these 3 config vars
-  - office365username
-  - office365password
-  - slackUserToken
+    - office365username
+    - office365password
+    - slackUserToken
 4) Setup the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) add-on to run every morning when you need your status updated
-  - Mine runs "Every day at..." "01:00 PM UTC"
-  - Run Command: "node slack-status-updater.js"
+    - Mine runs "Every day at..." "01:00 PM UTC"
+    - Run Command: "node slack-status-updater.js"
 
 ## Contributing
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jjstobbe/slackstatusupdater/issues)
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jjstobbe/slack-status-updater/issues)
 
 ## Author
 
@@ -43,7 +43,7 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 
 ## License
 
-Copyright © 2019 [Jack Stobbe](#Jack Stobbe)
+Copyright © 2019 [Jack Stobbe](https://jjstobbe.github.io)
 Licensed under the MIT license.
 
 ***
