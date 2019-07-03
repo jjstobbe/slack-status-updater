@@ -4,7 +4,7 @@
   "description": "",
   "main": "slackStatusUpdater.js",
   "scripts": {
-    "start": "node slack-status-updater.js"
+    "start": "node src/startCronJob.js"
   },
   "author": "Jack Stobbe",
   "license": "MIT",
