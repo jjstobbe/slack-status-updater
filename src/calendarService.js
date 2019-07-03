@@ -39,6 +39,7 @@ async function fetchCalendarEvents () {
   const ewsFunction = 'FindItem'
 
   const currentDate = new Date()
+  currentDate.setHours(0, 0, 0, 0)
   let tomorrowDate = new Date()
   tomorrowDate.setDate(currentDate.getDate() + 1)
 
