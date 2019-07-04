@@ -89,19 +89,31 @@ async function fetchCalendarEvents () {
 
   try {
     const calendarItems = result.ResponseMessages.FindItemResponseMessage.RootFolder.Items.CalendarItem
-    const sanitizedCalendarItems = calendarItems
-      .map(item => {
-        return {
-          subject: item.Subject,
-          startDate: new Date(item.Start),
-          endDate: new Date(item.End)
-        }
-      })
+
+    let sanitizedCalendarItems = []
+    if (isArray(calendarItems)) {
+      sanitizedCalendarItems = calendarItems.map(sanitizeCalendarItem)
+    } else if (isObject(calendarItems)) {
+      sanitizedCalendarItems = [sanitizeCalendarItem(calendarItems)]
+    }
+
     return sanitizedCalendarItems
   } catch (ex) {
+    console.log(ex)
     return []
   }
 }
+
+function sanitizeCalendarItem (item) {
+  return {
+    subject: item.Subject,
+    startDate: new Date(item.Start),
+    endDate: new Date(item.End)
+  }
+}
+
+const isArray = (a) => (!!a) && (a.constructor === Array)
+const isObject = (a) => (!!a) && (a.constructor === Object)
 
 module.exports = {
   fetchCalendarEvents
