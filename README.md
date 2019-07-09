@@ -29,7 +29,7 @@ Best part of all, it's completely free! This app is designed to run on Heroku's 
     - slackUserToken
 4) Setup the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) add-on to run every morning when you need your status updated
     - Mine runs "Every day at..." "01:00 PM UTC"
-    - Run Command: "node slack-status-updater.js"
+    - Run Command: "npm run start"
 
 ## Contributing
 
