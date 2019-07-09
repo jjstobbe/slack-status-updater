@@ -5,7 +5,7 @@ _Do you waste time setting your slack status multiple times a day?_
 
 _Do you want to let your coworkers know if you're available?_
 
-_Do you just hate the outlook extension that does this?_
+_Do you want to automate literally everything in your life?_
 
 Then this is the app for you!
 
