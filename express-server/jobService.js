@@ -1,6 +1,6 @@
 var CalendarService = require('./calendarService')
 var SlackService = require('./slackService')
-var statusSettings = require('../statusSettings.json')
+var FileService = require('./fileService')
 
 if (!process.env.office365username || !process.env.office365password || !process.env.slackUserToken) {
   if (!process.env.office365username) {
@@ -49,6 +49,8 @@ async function runJob () {
 
   const subject = primaryEvent.subject.toLowerCase()
   const endTime = primaryEvent.endDate.getTime() / 1000
+
+  const statusSettings = FileService.readSettingsFile();
 
   const statusEvents = statusSettings.status_events
   const fallbackStatusEvent = statusSettings.fallback_status_event

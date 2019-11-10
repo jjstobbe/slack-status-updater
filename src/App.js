@@ -16,14 +16,20 @@ const App = () => {
     fetchSettings();
   }, [])
 
-  const onChangeJSON = (result) => {
+  const onChangeJSON = async (result) => {
     console.log(result);
-
+      
     if (result.errors) {
       return;
     }
 
-
+    await fetch('/update-settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: result.json,
+    })
   }
 
   return (

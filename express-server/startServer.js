@@ -32,6 +32,7 @@ console.log("Starting Express Server...");
 const express = require('express')
 const app = express()
 
+app.use(express.json());
 app.use(express.static(__dirname + './../build/'))
 
 app.get('/', (req, res) => res.send('Hello From Slack Status Updater'))
@@ -39,16 +40,14 @@ app.listen(process.env.PORT || 3001)
 
 app.get('/get-settings', (req, res) => {
   const settings = FileService.readSettingsFile();
-  
+
   return res.json(settings);
 });
 
 app.post('/update-settings', (req, res) => {
-  console.log(req);
+  FileService.setSettingsFile(JSON.stringify(req.body));
 
-  // FileService.setSettingsFile();'
-
-  return ":shrug:";
+  return res.sendStatus(200);
 });
 
 console.log(`Sever started on port ${process.env.PORT || 5000}`);
