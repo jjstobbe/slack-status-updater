@@ -62,3 +62,17 @@ typings/
 
 # credentials
 credentials.json
+
+# dependencies
+/.pnp
+.pnp.js
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

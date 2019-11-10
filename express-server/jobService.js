@@ -35,7 +35,7 @@ async function runJob () {
   const currentEvents = events.filter(event => event.startDate <= currentTime && currentTime <= event.endDate)
 
   if (currentEvents.length === 0) {
-    SlackService.resetStatus()
+    SlackService.clearStatus()
     return
   }
 

@@ -1,7 +1,7 @@
 var request = require('request')
 
 // Handles all slack communication
-function resetStatus () {
+function clearStatus () {
   updateStatus('', [''])
 }
 
@@ -48,6 +48,6 @@ function updateStatus (text, emojis, expiration) {
 }
 
 module.exports = {
-  resetStatus,
+  clearStatus,
   updateStatus
 }
