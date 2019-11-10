@@ -5,7 +5,7 @@
   "description": "",
   "main": "slackStatusUpdater.js",
   "scripts": {
-    "start-prod": "react-scripts build && node express-server/startServer.js",
+    "start": "node express-server/startServer.js",
     "start-dev": "concurrently \"react-scripts start\" \"nodemon express-server/startServer.js\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
