@@ -1,8 +1,8 @@
-var request = require('request')
+var fetch = require('node-fetch')
 
 // Handles all slack communication
-function clearStatus () {
-  updateStatus('', [''])
+async function clearStatus () {
+  await updateStatus('', [''])
 }
 
 function selectRandomElement (items) {
@@ -29,25 +29,47 @@ function sanitizeEmoji (emoji) {
   return sanitizedEmoji
 }
 
-function updateStatus (text, emojis, expiration) {
-  const stanitizedText = text == null ? '' : text.trim()
+async function updateStatus (text, emojis, expiration) {
+  const sanitizedText = text == null ? '' : text.trim()
   const emoji = selectRandomElement(emojis)
   const sanitizedEmoji = sanitizeEmoji(emoji)
 
-  const body = JSON.stringify({
-    'status_text': stanitizedText,
+  const profile = JSON.stringify({
+    'status_text': sanitizedText,
     'status_emoji': sanitizedEmoji,
     'status_expiration': expiration
   })
-  const encodedBody = encodeURIComponent(body)
 
-  const token = process.env.slackUserToken
-  const url = `http://slack.com/api/users.profile.set?token=${token}&profile=${encodedBody}`
+  const updateStatusUrl = new URL('http://slack.com/api/users.profile.set');
+  const token = process.env.slackUserToken;
+  updateStatusUrl.searchParams.append('token', token);
+  updateStatusUrl.searchParams.append('profile', profile);
 
-  request.get(url)
+  await fetch(updateStatusUrl.href);
+}
+
+async function sendReminder (message) {
+  const token = process.env.slackBotToken;
+  const userId = process.env.reminderUserId;
+  const openIm = new URL('http://slack.com/api/im.open')
+
+  openIm.searchParams.append('token', token);
+  openIm.searchParams.append('user', userId);
+
+  const userInformation = await fetch(openIm.href);
+  const jsonResult = await userInformation.json();
+  const channel = jsonResult.channel.id;
+
+  const messageUrl = new URL('http://slack.com/api/chat.postMessage');
+  messageUrl.searchParams.append('token', token)
+  messageUrl.searchParams.append('channel', channel)
+  messageUrl.searchParams.append('text', message);
+
+  await fetch(messageUrl.href)
 }
 
 module.exports = {
   clearStatus,
-  updateStatus
+  updateStatus,
+  sendReminder
 }

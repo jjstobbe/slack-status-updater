@@ -23,23 +23,32 @@ const App = () => {
       return;
     }
 
+    setSettings(result.jsObject);
+  }
+
+  const onSaveJSON = async () => {
     await fetch('/update-settings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: result.json,
+      body: JSON.stringify(settings),
     })
   }
 
   return (
-    <JSONInput
-      placeholder={settings}
-      theme="dark_vscode_tribute"
-      height="100vh"
-      width="100vw"
-      onChange={onChangeJSON}
-    />
+    <React.Fragment>
+      <button onClick={onSaveJSON}>
+        Save Settings
+      </button>
+      <JSONInput
+        placeholder={settings}
+        theme="dark_vscode_tribute"
+        height="100vh"
+        width="100vw"
+        onChange={onChangeJSON}
+      />
+    </React.Fragment>
   );
 }
 

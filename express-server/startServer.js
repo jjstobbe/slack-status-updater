@@ -1,16 +1,16 @@
 var CronJob = require('cron').CronJob
-var request = require('request')
+var fetch = require('node-fetch')
 
 var FileService = require('./fileService')
 var JobService = require('./jobService')
 var SlackService = require('./slackService')
 
-;(function () {
+;(function() {
   const job = new CronJob({
     cronTime: '*/2 7-17 * * 1-5',
     onTick: async () => {
       // Make a request to the app so it doesn't idle
-      request.get('https://slack-status-updater.herokuapp.com/')
+      await fetch('https://slack-status-updater.herokuapp.com/')
 
       try {
         await JobService.runJob()
@@ -21,8 +21,8 @@ var SlackService = require('./slackService')
     },
     start: true,
     timeZone: 'America/North_Dakota/New_Salem'
-  })
-
+  });
+  
   job.start()
 })()
 
@@ -38,16 +38,16 @@ app.use(express.static(__dirname + './../build/'))
 app.get('/', (req, res) => res.send('Hello From Slack Status Updater'))
 app.listen(process.env.PORT || 3001)
 
-app.get('/get-settings', (req, res) => {
-  const settings = FileService.readSettingsFile();
+app.get('/get-settings', async (req, res) => {
+  const settings = await FileService.readSettingsFile();
 
-  return res.json(settings);
+  return res.json(settings || {});
 });
 
-app.post('/update-settings', (req, res) => {
-  FileService.setSettingsFile(JSON.stringify(req.body));
+app.post('/update-settings', async (req, res) => {
+  await FileService.setSettingsFile(req.body);
 
   return res.sendStatus(200);
 });
 
-console.log(`Sever started on port ${process.env.PORT || 5000}`);
+console.log(`Sever started on port ${process.env.PORT || 3001}`);

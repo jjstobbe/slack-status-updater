@@ -23,10 +23,13 @@ Best part of all, it's completely free! This app is designed to run on Heroku's 
 
 1) Spin up a new project on [heroku](https://devcenter.heroku.com/articles/free-dyno-hours)
 2) git clone this repository onto the new heroku server
-3) Set these 3 config vars
+3) Set these 5 config vars
     - office365username
     - office365password
-    - slackUserToken
+    - mongoUri (with slack-status-updater db and slack-status collection)
+    - slackBotToken (with im.write permissions)
+    - slackUserToken (with users.profile:write permissions)
+    - reminderUserId (userId of user to send reminders to)
 4) Setup the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) add-on to run every morning when you need your status updated
     - Mine runs "Every day at..." "01:00 PM UTC"
     - Run Command: "npm run start"

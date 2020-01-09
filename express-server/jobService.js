@@ -2,15 +2,21 @@ var CalendarService = require('./calendarService')
 var SlackService = require('./slackService')
 var FileService = require('./fileService')
 
-if (!process.env.office365username || !process.env.office365password || !process.env.slackUserToken) {
+if (!process.env.office365username || !process.env.office365password || !process.env.slackBotToken || !process.env.slackUserToken || !process.env.mongoUri) {
   if (!process.env.office365username) {
-    console.error('No office365username')
+    console.error('No office365username env variable found');
   }
   if (!process.env.office365password) {
-    console.error('No office365password')
+    console.error('No office365password env variable found');
+  }
+  if (!process.env.slackBotToken) {
+    console.error('No slackBotToken env variable found');
   }
   if (!process.env.slackUserToken) {
-    console.error('No slackUserToken environment variable found - https://api.slack.com/custom-integrations/legacy-tokens')
+    console.error('No slackUserToken env variable found - https://api.slack.com/custom-integrations/legacy-tokens');
+  }
+  if (!process.env.mongoUri) {
+    console.error('No mongoUri env variable found');
   }
 
   process.exit(1)
@@ -34,8 +40,16 @@ async function runJob () {
   const currentTime = new Date()
   const currentEvents = events.filter(event => event.startDate <= currentTime && currentTime <= event.endDate)
 
+  var twoAndAHalfMinutes = 1000*60*2.5; // in ms
+  const closeEvents = events.filter(event => event.startDate > currentTime && (event.startDate - currentTime) <= twoAndAHalfMinutes);
+  if (closeEvents.length !== 0) {
+    const firstEvent = closeEvents[0];
+    const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
+    await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} seconds`);
+  }
+  
   if (currentEvents.length === 0) {
-    SlackService.clearStatus()
+    await SlackService.clearStatus()
     return
   }
 
@@ -50,7 +64,7 @@ async function runJob () {
   const subject = primaryEvent.subject.toLowerCase()
   const endTime = primaryEvent.endDate.getTime() / 1000
 
-  const statusSettings = FileService.readSettingsFile();
+  const statusSettings = await FileService.readSettingsFile();
 
   const statusEvents = statusSettings.status_events
   const fallbackStatusEvent = statusSettings.fallback_status_event
@@ -63,13 +77,13 @@ async function runJob () {
 
     if (doesMatch) {
       const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text
-      SlackService.updateStatus(statusText, statusEvent.status_emojis, endTime)
+      await SlackService.updateStatus(statusText, statusEvent.status_emojis, endTime)
       return
     }
   }
 
   // Doesn't match any of our options, we use fallback
-  SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, endTime)
+  await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, endTime)
 }
 
 module.exports = {
