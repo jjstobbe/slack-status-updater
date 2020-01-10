@@ -6,6 +6,10 @@ var JobService = require('./jobService')
 var SlackService = require('./slackService')
 
 ;(function() {
+  if (!process.env.isProduction) {
+    return JobService.runJob();
+  }
+
   const job = new CronJob({
     cronTime: '*/2 7-17 * * 1-5',
     onTick: async () => {

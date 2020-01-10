@@ -65,6 +65,11 @@ async function fetchCalendarEvents () {
             'attributes': {
               'FieldURI': 'calendar:End'
             }
+          },
+          {
+            'attributes': {
+              'FieldURI': 'calendar:Location'
+            }
           }
         ]
       }
@@ -108,7 +113,8 @@ function sanitizeCalendarItem (item) {
   return {
     subject: item.Subject,
     startDate: new Date(item.Start),
-    endDate: new Date(item.End)
+    endDate: new Date(item.End),
+    location: item.Location,
   }
 }
 
