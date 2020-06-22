@@ -1,0 +1,33 @@
+{
+    "fallback_status_event": {
+        "status_text": "In a meeting",
+        "status_emojis": [
+            ":calendar:"
+        ]
+    },
+    "ignored_events": {
+        "matching_words": [
+            "Lunch"
+        ]
+    },
+    "status_events": [
+        {
+            "matching_words": [
+                "ooo"
+            ],
+            "status_emojis": [
+                ":ooo:"
+            ],
+            "check_for_status_in_title": true
+        },
+        {
+            "matching_words": [
+                "vacation"
+            ],
+            "status_emojis": [
+                ":palm_tree:"
+            ],
+            "check_for_status_in_title": true
+        }
+    ]
+}

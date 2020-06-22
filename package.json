@@ -1,56 +1,45 @@
 {
-  "name": "slackstatusupdater",
-  "version": "1.0.0",
-  "private": true,
-  "description": "",
-  "main": "slackStatusUpdater.js",
-  "scripts": {
-    "start": "node express-server/startServer.js",
-    "start-dev": "concurrently \"react-scripts start\" \"nodemon express-server/startServer.js\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "author": "Jack Stobbe",
-  "license": "MIT",
-  "proxy": "http://localhost:3001",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "concurrently": "^5.0.0",
-    "cron": "^1.7.1",
-    "express": "^4.16.4",
-    "mongodb": "^3.4.1",
-    "node-ews": "^3.2.4",
-    "node-fetch": "^2.6.0",
-    "node-outlook": "^1.1.8",
-    "nodemon": "^1.19.4",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-json-editor-ajrm": "^2.5.9",
-    "react-scripts": "3.2.0",
-    "simple-oauth2": "^2.2.1"
-  },
-  "devDependencies": {
-    "eslint": "^6.0.1",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "slackstatusupdater",
+    "version": "1.0.0",
+    "private": true,
+    "description": "",
+    "main": "slackStatusUpdater.js",
+    "scripts": {
+        "start": "node express-server/startServer.js",
+        "start-dev": "concurrently \"react-scripts start\" \"nodemon express-server/startServer.js\"",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "author": "Jack Stobbe",
+    "license": "MIT",
+    "proxy": "http://localhost:3001",
+    "dependencies": {
+        "axios": "^0.19.0",
+        "concurrently": "^5.0.0",
+        "cron": "^1.7.1",
+        "express": "^4.16.4",
+        "mongodb": "^3.4.1",
+        "node-ews": "^3.2.4",
+        "node-fetch": "^2.6.0",
+        "node-outlook": "^1.1.8",
+        "nodemon": "^1.19.4",
+        "react": "^16.11.0",
+        "react-dom": "^16.11.0",
+        "react-json-editor-ajrm": "^2.5.9",
+        "react-scripts": "3.2.0",
+        "simple-oauth2": "^2.2.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

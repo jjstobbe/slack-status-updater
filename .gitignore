@@ -76,3 +76,6 @@ credentials.json
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Added for this project
+/config/settings.json

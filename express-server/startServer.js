@@ -1,57 +1,77 @@
-var CronJob = require('cron').CronJob
-var fetch = require('node-fetch')
+var CronJob = require('cron').CronJob;
+var fetch = require('node-fetch');
 
-var FileService = require('./fileService')
-var JobService = require('./jobService')
-var SlackService = require('./slackService')
+// Verify Configs are setup correctly
+verifyConfigs();
 
-;(function() {
-  if (!process.env.isProduction) {
-    return JobService.runJob();
-  }
+var FileService = require('./fileService');
+var JobService = require('./jobService');
+var SlackService = require('./slackService');
 
-  const job = new CronJob({
-    cronTime: '*/2 7-17 * * 1-5',
-    onTick: async () => {
-      // Make a request to the app so it doesn't idle
-      await fetch('https://slack-status-updater.herokuapp.com/')
+(function () {
+    if (process.env.isProduction == 'false') {
+        return JobService.runJob();
+    }
 
-      try {
-        await JobService.runJob()
-      } catch (e) {
-        console.log(e)
-        SlackService.clearStatus()
-      }
-    },
-    start: true,
-    timeZone: 'America/North_Dakota/New_Salem'
-  });
-  
-  job.start()
-})()
+    const job = new CronJob({
+        cronTime: '*/2 7-17 * * 1-5',
+        onTick: async () => {
+            // Make a request to the app so it doesn't idle
+            await fetch('https://slack-status-updater.herokuapp.com/');
 
-console.log("Starting Express Server...");
+            try {
+                await JobService.runJob();
+            } catch (e) {
+                console.log(e);
+                SlackService.clearStatus();
+            }
+        },
+        start: true,
+        timeZone: 'America/North_Dakota/New_Salem'
+    });
+
+    job.start();
+})();
+
+function verifyConfigs() {
+    var settingsFile = require('../config/settings.json');
+    const necessaryConfigs = ['isProduction', 'office365username', 'office365password', 'slackBotToken', 'slackUserToken', 'mongoUri'];
+
+    necessaryConfigs.forEach((configKey) => {
+        // Set process env vars based on settings file
+        if (settingsFile.hasOwnProperty(configKey)) {
+            process.env[configKey] = settingsFile[configKey];
+        }
+
+        if (!process.env.hasOwnProperty(configKey)) {
+            console.error(`No ${configKey} config found`);
+            process.exit(1);
+        }
+    });
+}
+
+console.log('Starting Express Server...');
 
 // Dummy express API to serve something on a port for heroku
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 
 app.use(express.json());
-app.use(express.static(__dirname + './../build/'))
+app.use(express.static(__dirname + './../build/'));
 
-app.get('/', (req, res) => res.send('Hello From Slack Status Updater'))
-app.listen(process.env.PORT || 3001)
+app.get('/', (req, res) => res.send('Hello From Slack Status Updater'));
+app.listen(process.env.PORT || 3001);
 
 app.get('/get-settings', async (req, res) => {
-  const settings = await FileService.readSettingsFile();
+    const settings = await FileService.readSettingsFile();
 
-  return res.json(settings || {});
+    return res.json(settings || {});
 });
 
 app.post('/update-settings', async (req, res) => {
-  await FileService.setSettingsFile(req.body);
+    await FileService.setSettingsFile(req.body);
 
-  return res.sendStatus(200);
+    return res.sendStatus(200);
 });
 
 console.log(`Sever started on port ${process.env.PORT || 3001}`);
