@@ -56,8 +56,9 @@ async function runJob() {
     });
 
     const allDayEvents = sortedEvents.filter((event) => event.endDate.getTime() - event.startDate.getTime() >= 77760000);
+    const hasAllDayEvent = allDayEvents.length > 0;
 
-    const primaryEvent = allDayEvents.length > 0 ? allDayEvents[0] : sortedEvents[0];
+    const primaryEvent = hasAllDayEvent ? allDayEvents[0] : sortedEvents[0];
 
     const subject = primaryEvent.subject.toLowerCase();
     const endTime = primaryEvent.endDate.getTime() / 1000;
@@ -73,13 +74,13 @@ async function runJob() {
 
         if (doesMatch) {
             const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text;
-            await SlackService.updateStatus(statusText, statusEvent.status_emojis, endTime);
+            await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
             return;
         }
     }
 
     // Doesn't match any of our options, we use fallback
-    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, endTime);
+    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
 }
 
 const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
