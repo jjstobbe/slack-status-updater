@@ -34,7 +34,12 @@ var SlackService = require('./slackService');
 })();
 
 function verifyConfigs() {
-    var settingsFile = require('../config/settings.json');
+    let settingsFile = {};
+    try {
+        settingsFile = require('../config/settings.json');
+    } catch (e) {
+        console.error(e);
+    }
     const necessaryConfigs = ['isProduction', 'office365username', 'office365password', 'slackBotToken', 'slackUserToken', 'mongoUri'];
 
     necessaryConfigs.forEach((configKey) => {
