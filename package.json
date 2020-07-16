@@ -19,7 +19,7 @@
         "concurrently": "^5.0.0",
         "cron": "^1.7.1",
         "express": "^4.16.4",
-        "mongodb": "^3.4.1",
+        "mongodb": "^3.5.9",
         "node-ews": "^3.2.4",
         "node-fetch": "^2.6.0",
         "node-outlook": "^1.1.8",
