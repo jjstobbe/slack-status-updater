@@ -40,7 +40,7 @@ function verifyConfigs() {
     } catch (e) {
         console.error(e);
     }
-    const necessaryConfigs = ['isProduction', 'exchange_username', 'exchange_password', 'exchange_host_url', 'slackBotToken', 'slackUserToken', 'mongoUri'];
+    const necessaryConfigs = ['isProduction', 'exchange_username', 'exchange_password', 'exchange_host_url', 'exchange_authtype', 'slackBotToken', 'slackUserToken', 'mongoUri'];
 
     necessaryConfigs.forEach((configKey) => {
         // Set process env vars based on settings file
