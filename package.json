@@ -16,7 +16,7 @@
     "proxy": "http://localhost:3001",
     "dependencies": {
         "axios": "^0.19.0",
-        "concurrently": "^5.0.0",
+        "concurrently": "^5.2.0",
         "cron": "^1.7.1",
         "express": "^4.16.4",
         "mongodb": "^3.4.1",
