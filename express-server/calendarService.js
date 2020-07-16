@@ -5,7 +5,7 @@ const ewsServer = new EWS({
     username: process.env.exchange_username,
     password: process.env.exchange_password,
     host: process.env.exchange_host_url,
-    auth: 'basic'
+    auth: process.env.exchange_authtype
 });
 
 async function fetchCalenderInfo() {
