@@ -2,9 +2,9 @@ const EWS = require('node-ews');
 
 // exchange server connection info
 const ewsServer = new EWS({
-    username: process.env.office365username,
-    password: process.env.office365password,
-    host: 'https://outlook.office365.com',
+    username: process.env.exchange_username,
+    password: process.env.exchange_password,
+    host: process.env.exchange_host_url,
     auth: 'basic'
 });
 

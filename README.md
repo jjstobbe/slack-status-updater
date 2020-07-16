@@ -23,9 +23,10 @@ Best part of all, it's completely free! This app is designed to run on Heroku's 
 
 1) Spin up a new project on [heroku](https://devcenter.heroku.com/articles/free-dyno-hours)
 2) git clone this repository onto the new heroku server
-3) Set these 5 config vars
-    - office365username
-    - office365password
+3) Set these configuration variables
+    - exchange_username
+    - exchange_password
+    - exchange_host_url (If using O365, use: https://outlook.office365.com)
     - mongoUri (with slack-status-updater db and slack-status collection)
     - slackBotToken (with im.write permissions)
     - slackUserToken (with users.profile:write permissions)
