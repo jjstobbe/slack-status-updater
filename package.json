@@ -23,7 +23,7 @@
         "node-ews": "^3.2.4",
         "node-fetch": "^2.6.0",
         "node-outlook": "^1.1.8",
-        "nodemon": "^1.19.4",
+        "nodemon": "^2.0.4",
         "react": "^16.11.0",
         "react-dom": "^16.11.0",
         "react-json-editor-ajrm": "^2.5.9",
