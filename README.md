@@ -28,7 +28,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 
 ## Setup
 ### Slack API User and Bot Tokens
-0) Go to https://api.slack.com/apps
+1) Go to https://api.slack.com/apps
 0) Click **Create New App**
 0) Set an **App Name** of "\<username\>-slack-status-updater" (using your username for clarity)
 0) If presented: Select your **Development Slack Workspace**
@@ -47,7 +47,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
    - If you like having green presence dots next to bots, go to Features > App Home > Your App's Presence in Slack, Always Show My Bot as Online and set that to On
 
 ### MongoDB Atlas
-0) Create an account with MongoDB Atlas (Cloud) and log in (https://www.mongodb.com/cloud/atlas)
+1) Create an account with MongoDB Atlas (Cloud) and log in (https://www.mongodb.com/cloud/atlas)
     - You can use the free **Shared Clusters** tier
     - Proceed with defaults
 0) Create a new cluster
@@ -64,7 +64,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 
 ### Heroku
 #### Initial Setup
-0) Create a new app in Heroku (https://dashboard.heroku.com/new-app)
+1) Create a new app in Heroku (https://dashboard.heroku.com/new-app)
 0) Set your app name to something unique (like "myname-ssu"), and click **Create App**
 0) In your Heroku app settings, under Config Vars, reveal and add these variable keys, along with the values you provide:
     - isProduction (set to "true")
@@ -86,7 +86,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - reminderUserId (If set, sends a meeting reminder to that user in Slack ~2 minutes before a meeting starts)
       - To get your UserId, open your Slack profile in a browser window and look for the ID hash in the URL immediately following ".../user_profile/". This should look something like "PX24VL9T2".
 #### Deploy
-0) On your computer, clone this git repo (`git clone https://github.com/<fork>/slack-status-updater.git`)
+1) On your computer, clone this git repo (`git clone https://github.com/<fork>/slack-status-updater.git`)
 0) `cd slack-status-updater`
 0) Using the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line): `heroku git:remote -a myname-ssu` (using your Heroku app name)
    - You may be presented with a URL that you will need to open up in your browser to complete the login
@@ -97,7 +97,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 #### Updates
 To update from this repo, simply:
 
-0) `git pull`
+1) `git pull`
 0) `git push heroku master`
 
 ## Usage
