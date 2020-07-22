@@ -7,16 +7,17 @@
     },
     "ignored_events": {
         "matching_words": [
-            "Lunch"
+            "Example placeholder text of a meeting subject that would be ignored"
         ]
     },
     "status_events": [
         {
             "matching_words": [
-                "ooo"
+                "ooo",
+                "Out of Office"
             ],
             "status_emojis": [
-                ":ooo:"
+                ":briefcase:"
             ],
             "check_for_status_in_title": true
         },
@@ -28,6 +29,46 @@
                 ":palm_tree:"
             ],
             "check_for_status_in_title": true
+        },
+        {
+            "matching_words": [
+                "Out sick",
+                "Sick day"
+            ],
+            "status_emojis": [
+                ":cold_sweat:"
+            ],
+            "check_for_status_in_title": true
+        },
+        {
+            "matching_words": [
+                "standup",
+                "Stand Up"
+            ],
+            "status_emojis": [
+                ":notebook:"
+            ],
+            "status_text": "Stand Up"
+        },
+        {
+            "matching_words": [
+                "WFH",
+                "Working from Home"
+            ],
+            "status_emojis": [
+                ":house:"
+            ],
+            "status_text": "Working remotely"
+        },
+        {
+            "matching_words": [
+                "WFO",
+                "Working from Office"
+            ],
+            "status_emojis": [
+                ":office:"
+            ],
+            "status_text": "In the office"
         }
     ]
 }
