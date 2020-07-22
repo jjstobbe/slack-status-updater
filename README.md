@@ -21,7 +21,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 
 - [Setup](#Setup)
   - [Slack API User and Bot Tokens](#Slack API User and Bot Tokens)
-  - [MongoDB Atlas (Cloud)](#MongoDB Atlas
+  - [MongoDB Atlas (Cloud)](#MongoDB Atlas)
   - [Heroku](#Heroku)
 - [Usage](#Usage)
 - [Known Issues](#Known Issues)
