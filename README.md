@@ -96,6 +96,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 
 #### Updates
 To update from this repo, simply:
+
 0) `git pull`
 0) `git push heroku master`
 
