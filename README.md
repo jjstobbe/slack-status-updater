@@ -19,12 +19,12 @@ This app reads your Office 365 or Exchange calendar and sets your corresponding 
 
 Best part of all, it's completely free! This app is designed to run on the Heroku and MongoDB Atlas free tier of services!
 
-- [Setup](#Setup)
-  - [Slack API User and Bot Tokens](#Slack API User and Bot Tokens)
-  - [MongoDB Atlas](#MongoDB Atlas)
-  - [Heroku](#Heroku)
-- [Usage](#Usage)
-- [Known Issues](#Known Issues)
+- [Setup](#setup)
+  - [Slack API User and Bot Tokens](#slack-api-user-and-bot-tokens)
+  - [MongoDB Atlas](#mongodb-atlas)
+  - [Heroku](#heroku)
+- [Usage](#usage)
+- [Known Issues](#known-issues)
 
 ## Setup
 ### Slack API User and Bot Tokens
