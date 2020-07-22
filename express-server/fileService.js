@@ -38,7 +38,7 @@ async function setSettingsFile(updatedJson) {
 }
 
 async function getClient() {
-    const client = await MongoClient.connect(uri, { useNewUrlParser: true }).catch((err) => {
+    const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
         console.log(err);
     });
 
