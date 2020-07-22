@@ -63,9 +63,11 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 0) Select Node.js, version 3.6 or later, and then click **Copy**. Take note of this URL.
 
 ### Heroku
-1) Spin up a new project on [heroku](https://devcenter.heroku.com/articles/free-dyno-hours)
-2) git clone this repository onto the new heroku server
-3) Set these configuration variables
+#### Initial Setup
+0) Create a new app in Heroku (https://dashboard.heroku.com/new-app)
+0) Set your app name to something unique (like "myname-ssu"), and click **Create App**
+0) In your Heroku app settings, under Config Vars, reveal and add these variable keys, along with the values you provide:
+    - isProduction (set to "true")
     - exchange_username (ie: username@domain.local)
     - exchange_password
     - exchange_host_url
@@ -83,11 +85,22 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - slackUserToken (OAuth Access Token, starts with "xoxp-")
     - reminderUserId (If set, sends a meeting reminder to that user in Slack ~2 minutes before a meeting starts)
       - To get your UserId, open your Slack profile in a browser window and look for the ID hash in the URL immediately following ".../user_profile/". This should look something like "PX24VL9T2".
-4) Setup the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) add-on to run every morning when you need your status updated
-    - Mine runs "Every day at..." "01:00 PM UTC"
-    - Run Command: "npm run start"
+#### Deploy
+0) On your computer, clone this git repo (`git clone https://github.com/<fork>/slack-status-updater.git`)
+0) `cd slack-status-updater`
+0) Using the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-command-line): `heroku git:remote -a myname-ssu` (using your Heroku app name)
+   - You may be presented with a URL that you will need to open up in your browser to complete the login
+0) Then deploy the app: `git push heroku master`
+0) Once deployed, post the example settings json: `curl -X POST -H "Content-Type: application/json" -d @statusSettings.example.json  https://myname-ssu.herokuapp.com/update-settings?authkey=<your_authkey_here> ; echo ""`
+0) Feel free to modify the settings json and re-upload with your customized statuses and emoji!
 
 ## Usage
+- In the statusSettings json, you can set a flag of "check_for_status_in_title" to true, which allows you to set an event subject in the formats of:
+  - matching_words: Status Text
+  - matching_words - Status Text
+
+  The status will be set to whatever "Status Text" is, along with the custom emoji you set for that filter.
+
 - Calendar events created as all-day events take ultimate precedence. Use this for events where you are unavailable all day, such as Sick Days or Vacations/Holidays.
 - In case of two events on the calendar that overlap, events that started most recently are reflected in your status.
 - If two or more events share identical timeframes, the event most recently added to your calendar seems to take precedence.
