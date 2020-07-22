@@ -77,6 +77,8 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - mongoUri
       - Copied during the MongoDB Atlas setup. Should look something like this:
         - 'mongodb+srv://slack-status-updater:\<your-password-here\>@clusterX.abcdef.mongodb.net/slack-status-updater?retryWrites=true&w=majority)
+    - heroku_url (The URL of this Heroku app, ie https://myappname.herokuapp.com/)
+    - authkey (Come up with a unique long secret/password value for this. Used to restrict requests to the Heroku app)
     - slackBotToken (Bot User OAuth Access Token, starts with "xoxb-")
     - slackUserToken (OAuth Access Token, starts with "xoxp-")
     - reminderUserId (If set, sends a meeting reminder to that user in Slack ~2 minutes before a meeting starts)
