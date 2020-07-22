@@ -40,32 +40,46 @@ async function updateStatus(text, emojis, expiration) {
         status_expiration: expiration
     });
 
-    const updateStatusUrl = new URL('http://slack.com/api/users.profile.set');
+    const updateStatusUrl = new URL('https://slack.com/api/users.profile.set');
     const token = process.env.slackUserToken;
     updateStatusUrl.searchParams.append('token', token);
     updateStatusUrl.searchParams.append('profile', profile);
 
-    await fetch(updateStatusUrl.href);
+    const updateStatusUrlResp = await fetch(updateStatusUrl.href);
+    const updateStatusUrlJsonResult = await updateStatusUrlResp.json();
+    if ( !updateStatusUrlJsonResult.ok ) {
+        console.log("Failed request: ", updateStatusUrl.href);
+        console.log("Response was: ", updateStatusUrlJsonResult);
+    }
 }
 
 async function sendReminder(message) {
     const token = process.env.slackBotToken;
     const userId = process.env.reminderUserId;
-    const openIm = new URL('http://slack.com/api/im.open');
+    const openIm = new URL('https://slack.com/api/conversations.open');
 
     openIm.searchParams.append('token', token);
-    openIm.searchParams.append('user', userId);
+    openIm.searchParams.append('users', userId);
 
     const userInformation = await fetch(openIm.href);
     const jsonResult = await userInformation.json();
+    if ( !jsonResult.ok ) {
+        console.log("Failed request: ", openIm.href);
+        console.log("Response was: ", jsonResult);
+    }
     const channel = jsonResult.channel.id;
 
-    const messageUrl = new URL('http://slack.com/api/chat.postMessage');
+    const messageUrl = new URL('https://slack.com/api/chat.postMessage');
     messageUrl.searchParams.append('token', token);
     messageUrl.searchParams.append('channel', channel);
     messageUrl.searchParams.append('text', message);
 
-    await fetch(messageUrl.href);
+    const messageUrlResponse = await fetch(messageUrl.href);
+    const messageUrljsonResult = await messageUrlResponse.json();
+    if ( !messageUrljsonResult.ok ) {
+        console.log("Failed request: ", messageUrl.href);
+        console.log("Response was: ", messageUrljsonResult);
+    }
 }
 
 module.exports = {
