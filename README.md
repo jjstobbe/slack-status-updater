@@ -94,6 +94,11 @@ Best part of all, it's completely free! This app is designed to run on the Herok
 0) Once deployed, post the example settings json: `curl -X POST -H "Content-Type: application/json" -d @statusSettings.example.json  https://myname-ssu.herokuapp.com/update-settings?authkey=<your_authkey_here> ; echo ""`
 0) Feel free to modify the settings json and re-upload with your customized statuses and emoji!
 
+#### Updates
+To update from this repo, simply:
+0) `git pull`
+0) `git push heroku master`
+
 ## Usage
 - In the statusSettings json, you can set a flag of "check_for_status_in_title" to true, which allows you to set an event subject in the formats of:
   - matching_words: Status Text
