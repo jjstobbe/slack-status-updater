@@ -3,7 +3,12 @@ var SlackService = require('./slackService');
 var FileService = require('./fileService');
 
 function checkSubjectForTitle(subject) {
-    const splitSubject = subject.split(' - ');
+    var splitSubject = [];
+    if ( subject.includes(' - ') ) {
+        splitSubject = subject.split(' - ');
+    } else if ( subject.includes(': ') ){
+        splitSubject = subject.split(': ');
+    }
 
     if (splitSubject.length !== 2) {
         return subject;
@@ -13,7 +18,7 @@ function checkSubjectForTitle(subject) {
 }
 
 async function runJob() {
-    console.log('Running Job..');
+    console.log('Running Job...');
 
     const events = await CalendarService.fetchCalendarEvents();
     const statusSettings = await FileService.readSettingsFile();
@@ -74,13 +79,23 @@ async function runJob() {
 
         if (doesMatch) {
             const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text;
-            await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+            //await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+            try {
+                await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+            } catch (e) {
+                console.log(e);
+            }
+
+            console.log("Updated Slack status: ", statusText, " ", statusEvent.status_emojis);
+            console.log('...Job Complete');
             return;
         }
     }
 
     // Doesn't match any of our options, we use fallback
     await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+    console.log("Updated Slack status: ", fallbackStatusEvent.status_text, " ", fallbackStatusEvent.status_emojis);
+    console.log('...Job Complete');
 }
 
 const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
