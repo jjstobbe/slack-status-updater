@@ -1,0 +1,11 @@
+// Copy this file to ~/.slack-status-updater.settings.js and edit to meet your requirements. Used by docker compose and when "export settingsFile=~/.slack-status-updater.settings.js" is set to supercede ENV variables.
+exports.exchange_username =	"johndoe@mydomain.com";
+exports.exchange_password =	"MyPasswordHere";
+exports.authkey =		"someRandomPasswordImakeUp";
+exports.exchange_host_url =	"https://outlook.office365.com";
+exports.exchange_authtype =	"ntlm";
+exports.slackBotToken =		"xoxb-XXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXX";
+exports.slackUserToken =	"xoxp-XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+exports.reminderUserId =	"XXXXXXXXX";
+exports.heroku_url =		"http://localhost:3001";
+exports.isProduction =		true;
