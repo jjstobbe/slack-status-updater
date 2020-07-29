@@ -15,6 +15,7 @@ services:
             - frontend
         depends_on:
             - db
+        restart_policy: always
     db:
         image: mongo:latest
         ports:
@@ -23,6 +24,7 @@ services:
             - mongodb-data:/data/db
         networks:
             - backend
+        restart_policy: always
 
 volumes:
     mongodb-data:
