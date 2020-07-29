@@ -19,6 +19,8 @@ This app reads your Office 365 or Exchange calendar and sets your corresponding 
 
 Best part of all, it's completely free! This app is designed to run on the Heroku and MongoDB Atlas free tier of services!
 
+**Do you prefer to roll your own Docker containers?** See these alternate  [Docker Compose Instructions](README.Docker_Compose.md)
+
 - [Setup](#setup)
   - [Slack API User and Bot Tokens](#slack-api-user-and-bot-tokens)
   - [MongoDB Atlas](#mongodb-atlas)
