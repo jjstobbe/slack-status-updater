@@ -9,7 +9,7 @@
 0) Compose your stack: `docker-compose -p "myusername-ssu" up -d` (Set `myusername-ssu` to whatever you want your stack to be named)
 0) Run `docker ps -f "name=myusername-ssu_app" | grep -v ^CONTAINER | sed -re 's/.*0\.0\.0\.0:([0-9]+)-.*/\1/g'` to see the port that was assigned to your app.
 0) Modify the `statusSettings.example.json` to your liking and save as `statusSettings.json`.
-0) Upload the sample status settings with (replace PORT with the port number above): `curl -X POST -H "Content-Type: application/json" -d @statusSettings.json  http://localhost:PORT/update-settings?authkey=YourSuperRandomAuthKeyGoesHere ; echo ""`
+0) Upload the sample status settings with (replace PORT with the port number above): `curl -X POST -H "Content-Type: application/json" -d @statusSettings.json  http://docker.hostname.or.ip:PORT/update-settings?authkey=YourSuperRandomAuthKeyGoesHere ; echo ""`
 
 
 Please refer back to the main [README.md](README.md) for more info on how to use this app.
