@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+    app:
+        image: muchtall/slack-status-updater
+        environment:
+            settingsFile: /run/secrets/settings.js
+            mongoUri: mongodb://db:27017/slack-status-updater
+        secrets:
+            - settings.js
+        ports:
+            - 3001
+        networks:
+            - backend
+            - frontend
+        depends_on:
+            - db
+    db:
+        image: mongo:latest
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb-data:/data/db
+        networks:
+            - backend
+
+volumes:
+    mongodb-data:
+
+secrets:
+    settings.js:
+        file: ~/.slack-status-updater.settings.js
+
+networks:
+    backend:
+        driver: overlay
+        internal: true
+    frontend:
+        driver: bridge
