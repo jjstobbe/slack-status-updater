@@ -38,7 +38,7 @@ var SlackService = require('./slackService');
 function verifyConfigs() {
     let settingsFile = {};
     try {
-        settingsFile = require('../config/settings.json');
+        settingsFile = require(process.env.settingsFile);
     } catch (e) {
         //console.error(e);
     }
