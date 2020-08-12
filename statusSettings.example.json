@@ -10,6 +10,7 @@
             "Example placeholder text of a meeting subject that would be ignored"
         ]
     },
+    "override_priority": ["Vacation","Sick","PTO"],
     "status_events": [
         {
             "matching_words": [
