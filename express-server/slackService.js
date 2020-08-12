@@ -114,12 +114,12 @@ async function sendReminder(message) {
 
 async function getPassword() {
     if (process.env.password_requested != "true") {
-        console.log('process.env.slackUserId:',process.env.slackUserId);
+        //console.log('process.env.slackUserId:',process.env.slackUserId);
         var result = await web.conversations.open({
             users: process.env.slackUserId
         });
         console.log('result.channel.id:',result.channel.id);
-        channelId = result.channel.id;
+        //channelId = result.channel.id;
         sendText = `It seems that I'm unable to log in to Exchange/O365 with your username of ${process.env.exchange_username}. I've temporarily stopped trying to log in prevent an account lock-out.\nPlease respond with your password to login.`;
         var result = await web.chat.postMessage({
             text: sendText,
