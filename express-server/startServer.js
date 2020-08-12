@@ -16,8 +16,7 @@ var SlackService = require('./slackService');
     const heroku_authed_url = "".concat(process.env.heroku_url, "?authkey=", process.env.authkey);
 
     const job = new CronJob({
-        //cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
-        cronTime: '*/10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
+        cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
         onTick: async () => {
             // Make a request to the app so it doesn't idle
             await fetch(heroku_authed_url);
