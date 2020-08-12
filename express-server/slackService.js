@@ -8,7 +8,7 @@ const { RTMClient } = require('@slack/rtm-api');
 const rtm = new RTMClient(botToken);
 // Web API
 const { WebClient } = require('@slack/web-api');
-const web = new WebClient(userToken);
+const web = new WebClient(botToken);
 
 rtm.on('message', async (event) => {
     //console.log(event);
@@ -114,6 +114,7 @@ async function sendReminder(message) {
 
 async function getPassword() {
     if (process.env.password_requested != "true") {
+        console.log('process.env.slackUserId:',process.env.slackUserId);
         var result = await web.conversations.open({
             users: process.env.slackUserId
         });

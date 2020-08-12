@@ -16,7 +16,8 @@ var SlackService = require('./slackService');
     const heroku_authed_url = "".concat(process.env.heroku_url, "?authkey=", process.env.authkey);
 
     const job = new CronJob({
-        cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
+        //cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
+        cronTime: '*/10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
         onTick: async () => {
             // Make a request to the app so it doesn't idle
             await fetch(heroku_authed_url);
@@ -42,7 +43,7 @@ function verifyConfigs() {
     } catch (e) {
         //console.error(e);
     }
-    const necessaryConfigs = ['isProduction', 'exchange_username', 'exchange_password', 'exchange_host_url', 'exchange_authtype', 'slackBotToken', 'slackUserToken', 'mongoUri', 'heroku_url', 'authkey'];
+    const necessaryConfigs = ['isProduction', 'exchange_username', 'exchange_password', 'exchange_host_url', 'exchange_authtype', 'slackBotToken', 'slackUserToken', 'slackUserId', 'mongoUri', 'heroku_url', 'authkey'];
 
     necessaryConfigs.forEach((configKey) => {
         // Set process env vars based on settings file
