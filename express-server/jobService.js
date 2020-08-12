@@ -19,8 +19,20 @@ function checkSubjectForTitle(subject) {
 
 async function runJob() {
     console.log('Running Job...');
+    console.log(process.env.exchange_password);
+    if ( process.env.exchange_password === '' ) {
+        console.error('No exchange password set yet. Stopping execution.');
+        return;
+    }
 
-    const events = await CalendarService.fetchCalendarEvents();
+    var events = [];
+    try {
+        events = await CalendarService.fetchCalendarEvents();
+    } catch (e) {
+        console.log('Some sort of connection error occurred to EWS. Halting further login attempts.');
+        process.env.exchange_password = '';
+    }
+
     const statusSettings = await FileService.readSettingsFile();
 
     if (!statusSettings) {
