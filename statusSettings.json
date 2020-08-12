@@ -7,7 +7,7 @@
     },
     "ignored_events": {
         "matching_words": [
-            "This will never match anything... I think."
+            "Put an event subject here that you would want to ignore"
         ]
     },
     "override_priority": ["Vacation","Sick","PTO"],
