@@ -21,6 +21,7 @@ async function runJob() {
     console.log('Running Job...');
     if ( process.env.exchange_password === '' ) {
         console.error('No exchange password set yet. Stopping execution.');
+        await SlackService.getPassword();
         return;
     }
 
@@ -30,6 +31,7 @@ async function runJob() {
     } catch (e) {
         console.log('Some sort of connection error occurred to EWS. Halting further login attempts.');
         process.env.exchange_password = '';
+        await SlackService.getPassword();
     }
 
     const statusSettings = await FileService.readSettingsFile();

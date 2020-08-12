@@ -1,12 +1,12 @@
 const EWS = require('node-ews');
 
 // exchange server connection info
-const ewsServer = new EWS({
-    username: process.env.exchange_username,
-    password: process.env.exchange_password,
-    host: process.env.exchange_host_url,
-    auth: process.env.exchange_authtype
-});
+//var ewsServer = new EWS({
+//    username: process.env.exchange_username,
+//    password: process.env.exchange_password,
+//    host: process.env.exchange_host_url,
+//    auth: process.env.exchange_authtype
+//});
 
 async function fetchCalenderInfo() {
     // define ews api function
@@ -25,7 +25,12 @@ async function fetchCalenderInfo() {
             }
         }
     };
-
+    var ewsServer = new EWS({
+        username: process.env.exchange_username,
+        password: process.env.exchange_password,
+        host: process.env.exchange_host_url,
+        auth: process.env.exchange_authtype
+    });
     const result = await ewsServer.run(ewsFunction, ewsArgs);
     return result.ResponseMessages.GetFolderResponseMessage.Folders.CalendarFolder.FolderId.attributes;
 }
@@ -87,6 +92,12 @@ async function fetchCalendarEvents() {
         }
     };
 
+    var ewsServer = new EWS({
+        username: process.env.exchange_username,
+        password: process.env.exchange_password,
+        host: process.env.exchange_host_url,
+        auth: process.env.exchange_authtype
+    });
     const result = await ewsServer.run(ewsFunction, ewsArgs);
 
     try {
