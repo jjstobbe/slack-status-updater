@@ -72,6 +72,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - isProduction (set to "true")
     - exchange_username (ie: username@domain.local)
     - exchange_password
+      - If you set this to "" (blank), the bot will ask you for your password when it first tries to log in.
     - exchange_host_url
       - If using O365, use: https://outlook.office365.com
       - If using Exchange/OWA, use: https://my-owa.hostname.com (using your OWA URL)
