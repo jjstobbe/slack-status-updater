@@ -29,7 +29,7 @@ async function runJob() {
     }
 
     const currentTime = new Date();
-    const currentEvents = events
+    var currentEvents = events
         .filter((event) => event.startDate <= currentTime && currentTime <= event.endDate)
         .filter((event) => {
             // Keep all elements if ignored_events doesn't exist
@@ -48,6 +48,23 @@ async function runJob() {
 
             return !doesMatch;
         });
+
+    if (statusSettings.override_priority) {
+        const overrideEvents = [];
+        // Starting with the first override element, look for matching events
+        statusSettings.override_priority.forEach((override) => {
+            currentEvents.forEach((event) => {
+                const regex = RegExp(override,'i');
+                if (event.subject.match(regex)) {
+                    overrideEvents.push(event);
+                };
+            });
+        });
+        if (overrideEvents[0]) {
+            // Assign just the first event as our currentEvents
+            currentEvents = overrideEvents.slice(0,1);
+        }
+    }
 
     await sendReminderIfNecessary(events);
 
