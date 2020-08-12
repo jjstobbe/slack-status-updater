@@ -87,7 +87,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - authkey (Come up with a unique long secret/password value for this. Used to restrict requests to the Heroku app)
     - slackBotToken (Bot User OAuth Access Token, starts with "xoxb-")
     - slackUserToken (OAuth Access Token, starts with "xoxp-")
-    - reminderUserId (If set, sends a meeting reminder to that user in Slack ~2 minutes before a meeting starts)
+    - slackUserId (If set, sends a meeting reminder to that user in Slack ~2 minutes before a meeting starts)
       - To get your UserId, open your Slack profile in a browser window and look for the ID hash in the URL immediately following ".../user_profile/". This should look something like "PX24VL9T2".
 #### Deploy
 1) On your computer, clone this git repo (`git clone https://github.com/<fork>/slack-status-updater.git`)

@@ -8,7 +8,7 @@ const { RTMClient } = require('@slack/rtm-api');
 const rtm = new RTMClient(botToken);
 // Web API
 const { WebClient } = require('@slack/web-api');
-const web = new WebClient(botToken);
+const web = new WebClient(userToken);
 
 rtm.on('message', async (event) => {
     //console.log(event);
@@ -85,7 +85,7 @@ async function updateStatus(text, emojis, expiration) {
 
 async function sendReminder(message) {
     const token = process.env.slackBotToken;
-    const userId = process.env.reminderUserId;
+    const userId = process.env.slackUserId;
     const openIm = new URL('https://slack.com/api/conversations.open');
 
     openIm.searchParams.append('token', token);
@@ -115,8 +115,9 @@ async function sendReminder(message) {
 async function getPassword() {
     if (process.env.password_requested != "true") {
         var result = await web.conversations.open({
-            users: process.env.reminderUserId
+            users: process.env.slackUserId
         });
+        console.log('result.channel.id:',result.channel.id);
         channelId = result.channel.id;
         sendText = `It seems that I'm unable to log in to Exchange/O365 with your username of ${process.env.exchange_username}. I've temporarily stopped trying to log in prevent an account lock-out.\nPlease respond with your password to login.`;
         var result = await web.chat.postMessage({

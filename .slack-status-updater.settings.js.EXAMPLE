@@ -6,6 +6,6 @@ exports.exchange_host_url =	"https://outlook.office365.com";
 exports.exchange_authtype =	"ntlm";
 exports.slackBotToken =		"xoxb-XXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXX";
 exports.slackUserToken =	"xoxp-XXXXXXXXXXXX-XXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-exports.reminderUserId =	"XXXXXXXXX";
+exports.slackUserId =	"XXXXXXXXX";
 exports.heroku_url =		"http://localhost:3001";
 exports.isProduction =		true;
