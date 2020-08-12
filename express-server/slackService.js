@@ -13,7 +13,6 @@ const web = new WebClient(botToken);
 rtm.on('message', async (event) => {
     //console.log(event);
     if ( event.user ) {
-        console.log(process.env.password_requested);
         if (process.env.password_requested == "true") {
             process.env.password_requested = "false";
             console.log("Got password from Slack user");
