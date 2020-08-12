@@ -5,19 +5,29 @@
             ":calendar:"
         ]
     },
+    "ignored_events": {
+        "matching_words": [
+            "This will never match anything... I think."
+        ]
+    },
+    "override_priority": ["Vacation","Sick","PTO"],
     "status_events": [
         {
             "matching_words": [
-                "ooo"
+                "ooo",
+                "Out of Office"
             ],
             "status_emojis": [
-                ":ooo:"
+                ":will_return:"
             ],
             "check_for_status_in_title": true
         },
         {
             "matching_words": [
-                "vacation"
+                "Vacation",
+                "Time Off",
+                "Paid Leave",
+                "Unpaid Leave"
             ],
             "status_emojis": [
                 ":palm_tree:"
@@ -36,12 +46,12 @@
         },
         {
             "matching_words": [
-                "ssb"
+                "Sick"
             ],
-            "status_text": "Smash Match",
             "status_emojis": [
-                ":smash:"
-            ]
+                ":face_with_thermometer:"
+            ],
+            "check_for_status_in_title": true
         },
         {
             "matching_words": [
@@ -49,38 +59,31 @@
             ],
             "status_text": "Lunch",
             "status_emojis": [
-                ":lunchables:",
-                ":burger:",
                 ":hamburger:",
+                ":fork_and_knife:",
                 ":chompy:"
             ]
         },
         {
             "matching_words": [
-                "1:1",
-                "one on one",
-                "1 on 1"
+                "WFH",
+                "Working from Home"
             ],
+            "status_text": "Working from Home",
             "status_emojis": [
-                ":1on1:"
+                ":house:"
             ]
         },
         {
             "matching_words": [
-                "all-hands"
+                "Working from Office",
+                "Working from the Office",
+                "In the Office",
+                "In Office"
             ],
-            "status_text": "All-Hands",
+            "status_text": "In the Office",
             "status_emojis": [
-                ":hudl:"
-            ]
-        },
-        {
-            "matching_words": [
-                "new hire graduation"
-            ],
-            "status_text": "New Hire Graduation",
-            "status_emojis": [
-                ":mortar_board:"
+                ":office:"
             ]
         }
     ]
