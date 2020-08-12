@@ -118,8 +118,8 @@ async function getPassword() {
         var result = await web.conversations.open({
             users: process.env.slackUserId
         });
-        console.log('result.channel.id:',result.channel.id);
-        //channelId = result.channel.id;
+        //console.log('result.channel.id:',result.channel.id);
+        channelId = result.channel.id;
         sendText = `It seems that I'm unable to log in to Exchange/O365 with your username of ${process.env.exchange_username}. I've temporarily stopped trying to log in prevent an account lock-out.\nPlease respond with your password to login.`;
         var result = await web.chat.postMessage({
             text: sendText,
