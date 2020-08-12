@@ -19,7 +19,6 @@ function checkSubjectForTitle(subject) {
 
 async function runJob() {
     console.log('Running Job...');
-    console.log(process.env.exchange_password);
     if ( process.env.exchange_password === '' ) {
         console.error('No exchange password set yet. Stopping execution.');
         return;
