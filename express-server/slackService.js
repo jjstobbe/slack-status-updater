@@ -1,5 +1,35 @@
 var fetch = require('node-fetch');
 
+//// First steps in replacing the homebrew implementation of the Slack API interactions with the official SDK
+const botToken = process.env.slackBotToken;
+const userToken = process.env.slackUserToken;
+// RTM API
+const { RTMClient } = require('@slack/rtm-api');
+const rtm = new RTMClient(botToken);
+// Web API
+const { WebClient } = require('@slack/web-api');
+const web = new WebClient(botToken);
+
+rtm.on('message', async (event) => {
+    //console.log(event);
+    if ( event.user ) {
+        console.log(process.env.password_requested);
+        if (process.env.password_requested == "true") {
+            process.env.password_requested = "false";
+            console.log("Got password from Slack user");
+            process.env.exchange_password = event.text;
+            var result = await web.chat.postMessage({
+                text: "Thanks! I'll give that a shot. You can now delete the password message above.",
+                channel: channelId
+            });
+
+        }
+    }
+});
+(async () => {
+  await rtm.start();
+})();
+
 // Handles all slack communication
 async function clearStatus() {
     await updateStatus('', ['']);
@@ -82,8 +112,24 @@ async function sendReminder(message) {
     }
 }
 
+async function getPassword() {
+    if (process.env.password_requested != "true") {
+        var result = await web.conversations.open({
+            users: process.env.reminderUserId
+        });
+        channelId = result.channel.id;
+        sendText = `It seems that I'm unable to log in to Exchange/O365 with your username of ${process.env.exchange_username}. I've temporarily stopped trying to log in prevent an account lock-out.\nPlease respond with your password to login.`;
+        var result = await web.chat.postMessage({
+            text: sendText,
+            channel: channelId
+        });
+	    process.env.password_requested = "true";
+	}
+}
+
 module.exports = {
     clearStatus,
     updateStatus,
-    sendReminder
+    sendReminder,
+    getPassword
 };

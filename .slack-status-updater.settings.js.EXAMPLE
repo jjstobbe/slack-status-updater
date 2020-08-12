@@ -1,6 +1,6 @@
 // Copy this file to ~/.slack-status-updater.settings.js and edit to meet your requirements. Used by docker compose and when "export settingsFile=~/.slack-status-updater.settings.js" is set to supercede ENV variables.
 exports.exchange_username =	"johndoe@mydomain.com";
-exports.exchange_password =	"MyPasswordHere";
+exports.exchange_password =	"MyPasswordHere";   // Leave this as "" (blank) to have the bot prompt you for your password when it first tries to log in.
 exports.authkey =		"someRandomPasswordImakeUp";
 exports.exchange_host_url =	"https://outlook.office365.com";
 exports.exchange_authtype =	"ntlm";

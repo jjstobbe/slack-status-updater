@@ -15,7 +15,8 @@ This app reads your Office 365 or Exchange calendar and sets your corresponding 
 
 - You can set custom emojis and/or text on the status.
 - Automatically expires your status when the meeting is scheduled to end.
-- It refreshes every minute to take into account your latest calendar changes
+- It refreshes every minute to take into account your latest calendar changes.
+- If your O365/Exchange account password changes, the bot will ask you for the updated password.
 
 Best part of all, it's completely free! This app is designed to run on the Heroku and MongoDB Atlas free tier of services!
 
@@ -72,6 +73,7 @@ Best part of all, it's completely free! This app is designed to run on the Herok
     - isProduction (set to "true")
     - exchange_username (ie: username@domain.local)
     - exchange_password
+      - If you set this to "" (blank), the bot will ask you for your password when it first tries to log in.
     - exchange_host_url
       - If using O365, use: https://outlook.office365.com
       - If using Exchange/OWA, use: https://my-owa.hostname.com (using your OWA URL)
