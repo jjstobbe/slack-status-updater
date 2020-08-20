@@ -29,7 +29,8 @@ async function fetchCalenderInfo() {
         username: process.env.exchange_username,
         password: process.env.exchange_password,
         host: process.env.exchange_host_url,
-        auth: process.env.exchange_authtype
+        auth: process.env.exchange_authtype,
+        temp: '/tmp/node-ews/'
     });
     const result = await ewsServer.run(ewsFunction, ewsArgs);
     return result.ResponseMessages.GetFolderResponseMessage.Folders.CalendarFolder.FolderId.attributes;
