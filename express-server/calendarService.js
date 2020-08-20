@@ -31,8 +31,13 @@ async function fetchCalenderInfo() {
 //        host: process.env.exchange_host_url,
 //        auth: process.env.exchange_authtype,
 //    });
-    const result = await ewsServer.run(ewsFunction, ewsArgs);
-    return result.ResponseMessages.GetFolderResponseMessage.Folders.CalendarFolder.FolderId.attributes;
+    ewsServer.run(ewsFunction, ewsArgs)
+      .then(result => {
+        return result.ResponseMessages.GetFolderResponseMessage.Folders.CalendarFolder.FolderId.attributes;
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
 }
 
 async function fetchCalendarEvents() {
