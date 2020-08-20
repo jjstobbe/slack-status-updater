@@ -25,7 +25,7 @@ async function fetchCalenderInfo() {
             }
         }
     };
-    var ewsServer = new EWS({
+    const ewsServer = new EWS({
         username: process.env.exchange_username,
         password: process.env.exchange_password,
         host: process.env.exchange_host_url,
