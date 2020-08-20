@@ -104,12 +104,12 @@ async function fetchCalendarEvents() {
         }
     };
 
-    var ewsServer = new EWS({
-        username: process.env.exchange_username,
-        password: process.env.exchange_password,
-        host: process.env.exchange_host_url,
-        auth: process.env.exchange_authtype
-    });
+//    var ewsServer = new EWS({
+//        username: process.env.exchange_username,
+//        password: process.env.exchange_password,
+//        host: process.env.exchange_host_url,
+//        auth: process.env.exchange_authtype
+//    });
     const result = await ewsServer.run(ewsFunction, ewsArgs);
 
     try {
