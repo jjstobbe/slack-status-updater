@@ -129,7 +129,7 @@ async function runJob() {
     }
 
     // Doesn't match any of our options, we use fallback
-    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
     //console.log("Updated Slack status: ", fallbackStatusEvent.status_text, " ", fallbackStatusEvent.status_emojis);
     console.log('...Job Complete');
 }
