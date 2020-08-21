@@ -11,6 +11,7 @@
         ]
     },
     "override_priority": ["Vacation","Sick","PTO"],
+    "persist_calendar_status": false,
     "status_events": [
         {
             "matching_words": [
@@ -27,7 +28,8 @@
                 "Vacation",
                 "Time Off",
                 "Paid Leave",
-                "Unpaid Leave"
+                "Unpaid Leave",
+                "PTO"
             ],
             "status_emojis": [
                 ":palm_tree:"
