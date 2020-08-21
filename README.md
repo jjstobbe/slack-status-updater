@@ -105,29 +105,41 @@ To update from this repo, simply:
 0) `git push heroku master`
 
 ## Usage
-- In the statusSettings json, you can set a flag of "check_for_status_in_title" to true, which allows you to set an event subject in the formats of:
-  - matching_words: Status Text
-  - matching_words - Status Text
+### statusSettings.json
+- fallback_status_event
+  - status_text: **String** that serves as your default event status in case no other matches exist.
+  - status_emojis: **Array** of emojis you wish to have randomly assigned to this status. Setting one emoji will result in a consistent emoji for the status.
+- ignored_events
+  - matching_words: **Array** of event subjects you wish to ignore, leaving your Slack status unchanged.
+- override_priority: **Array** of event subjects, ordered by priority, which take precedence over any other conflicting event.
+- persist_calendar_status: **Boolean** (true/false) Enables or disables persistent Slack status updates. If disabled/false, changes manually you make to your Slack status will remain in place until a calendar event starts or expires. If enabled/true, manual status changes will be overridden.
+- status_events (**Array**)
+  - For each array element...
+    - matching_words: **Array** of words or phrases that would match a specific calendar subjects' event type (ie, for vacation events, "Vacation", "PTO", "Time Off")
+    - status_emoji: **Array** of emojis to randomly use for this status. Setting one emoji will result in a consistent emoji for the status.
+    - status_text: **String** specifying the status text to be set for this event subject match.
+    - check_for_status_in_title: **Boolean** (true/false) If set to true, the app will use ": " or " - " as a delimiter, treating the second field as the custom status to be used (ie, "Vacation: Camping" will display "Camping" as your status with the emoji specified above)
 
-  The status will be set to whatever "Status Text" is, along with the custom emoji you set for that filter.
+- Aside from the above...
+  - In case of two events on the calendar that overlap, events that started most recently are reflected in your status.
+  - If two or more events share identical timeframes, the event most recently added to your calendar seems to take precedence.
 
-- Calendar events created as all-day events take ultimate precedence. Use this for events where you are unavailable all day, such as Sick Days or Vacations/Holidays.
-- In case of two events on the calendar that overlap, events that started most recently are reflected in your status.
-- If two or more events share identical timeframes, the event most recently added to your calendar seems to take precedence.
-- Tip: If you want to set a custom availability status during your workday, but still be available on your calendar, create an event that spans your work hours, and set the "Show As" appointment attribute to "Free". Use this for things like "Working from Home", "Traveling for Work", or "Self Quarantining". Set this as recurring per your needs.
+### Tips
+- If you want to set a custom availability status during your workday, but still be available on your calendar, create an event that spans your work hours, and set the "Show As" appointment attribute to "Free". Use this for things like "Working from Home", "Traveling for Work", or "Self Quarantining". Set this as recurring per your needs.
 
 ## Known Issues
-- You cannot override a set status for a current event from within Slack. It will be effectively re-applied every minute until that event ends.
 
 ## Contributing
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jjstobbe/slack-status-updater/issues)
 
-## Author
+## Authors and Contributors
 
-**Jack Stobbe**
-
+**Jack Stobbe** (Author)
 * [github/](https://github.com/jjstobbe)
+
+**John Holmstadt** (Contributor)
+* [https://github.com/muchtall](https://github.com/muchtall)
 
 ## License
 
