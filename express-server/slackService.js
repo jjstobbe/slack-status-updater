@@ -58,12 +58,12 @@ function sanitizeEmoji(emoji) {
     return sanitizedEmoji;
 }
 
-async function updateStatus(text, emojis, expiration) {
+async function updateStatus(text, emojis, expiration, persist) {
     const sanitizedText = text == null ? '' : text.trim();
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
-    if ( statusSettings.persist_calendar_status && statusSettings.persist_calendar_status === false ) {
+    if ( persist === false ) {
         const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
         if ( CurrentSlackStatus === ConcatenatedStatus ) {
             console.log("Status is unchanged from last run. Skipping.");
