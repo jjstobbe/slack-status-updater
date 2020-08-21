@@ -102,9 +102,9 @@ async function runJob() {
     const fallbackStatusEvent = statusSettings.fallback_status_event;
 
     if ( !statusSettings.persist_calendar_status || statusSettings.persist_calendar_status === false ) {
-        const persistCalendarStatus = false;
+        var persistCalendarStatus = false;
     } else {
-        const persistCalendarStatus = true;
+        var persistCalendarStatus = true;
     }
 
     for (const statusEvent of statusEvents) {
