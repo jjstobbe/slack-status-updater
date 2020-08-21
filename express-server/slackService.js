@@ -63,6 +63,14 @@ async function updateStatus(text, emojis, expiration) {
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
+    const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
+    if ( CurrentSlackStatus === ConcatenatedStatus ) {
+        console.log("Status is unchanged from last run. Skipping.");
+        return;
+    } else {
+        console.log("Status has changed from last run. Updating...");
+    }
+    CurrentSlackStatus = ConcatenatedStatus;
     const profile = JSON.stringify({
         status_text: sanitizedText,
         status_emoji: sanitizedEmoji,
