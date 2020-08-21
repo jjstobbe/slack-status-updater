@@ -87,6 +87,8 @@ async function updateStatus(text, emojis, expiration) {
     if ( !updateStatusUrlJsonResult.ok ) {
         console.log("Failed request: ", updateStatusUrl.href);
         console.log("Response was: ", updateStatusUrlJsonResult);
+    } else {
+        console.log("Updated Slack status: ", text, " ", emoji);
     }
 }
 
