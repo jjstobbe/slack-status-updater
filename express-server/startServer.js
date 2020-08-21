@@ -5,10 +5,27 @@ var fetch = require('node-fetch');
 verifyConfigs();
 
 var FileService = require('./fileService');
-var JobService = require('./jobService');
 var SlackService = require('./slackService');
 
-(function () {
+const checkForPassword = async function() {
+    function sleep(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+    if ( process.env.exchange_password === '' ) {
+        console.error('No exchange password set yet. Asking for it in Slack...  ');
+        await SlackService.getPassword();
+        while ( process.env.exchange_password === '' ) {
+            // This is probably wrong, but for now it works.
+            await sleep(1000);
+        }
+    }
+};
+
+function setupCronJob() {
+    var JobService = require('./jobService');
+
     if (process.env.isProduction == 'false') {
         return JobService.runJob();
     }
@@ -16,7 +33,8 @@ var SlackService = require('./slackService');
     const heroku_authed_url = "".concat(process.env.heroku_url, "?authkey=", process.env.authkey);
 
     const job = new CronJob({
-        cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
+        //cronTime: '10 * * * * *', // Every minute at 10 seconds after (to give some time for clock drift)
+        cronTime: '*/10 * * * * *', // Let's try to force this memory bloat
         onTick: async () => {
             // Make a request to the app so it doesn't idle
             await fetch(heroku_authed_url);
@@ -33,7 +51,8 @@ var SlackService = require('./slackService');
     });
 
     job.start();
-})();
+    console.log('Cron job scheduled.');
+};
 
 function verifyConfigs() {
     let settingsFile = {};
@@ -57,51 +76,57 @@ function verifyConfigs() {
     });
 }
 
-console.log('Starting Express Server...');
+const startup = async function() {
+    await checkForPassword();
+    setupCronJob();
+    console.log('Starting Express Server...');
 
-// Dummy express API to serve something on a port for heroku
-const express = require('express');
-const app = express();
-const url = require('url');
+    // Dummy express API to serve something on a port for heroku
+    const express = require('express');
+    const app = express();
+    const url = require('url');
 
-app.use(express.json());
-app.use(express.static(__dirname + './../build/'));
+    app.use(express.json());
+    app.use(express.static(__dirname + './../build/'));
 
-app.get('/', (req, res) => {
-    const reqAuthKey = url.parse(req.url,true).query.authkey;
-    if ( reqAuthKey == process.env.authkey ) {
-        res.send('Hello From Slack Status Updater');
-    } else {
-        res.status(401);
-        res.send('Unauthorized: Invalid authkey');
-        console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
-    }
-});
+    app.get('/', (req, res) => {
+        const reqAuthKey = url.parse(req.url,true).query.authkey;
+        if ( reqAuthKey == process.env.authkey ) {
+            res.send('Hello From Slack Status Updater');
+        } else {
+            res.status(401);
+            res.send('Unauthorized: Invalid authkey');
+            console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
+        }
+    });
 
-app.listen(process.env.PORT || 3001);
+    app.listen(process.env.PORT || 3001);
 
-app.get('/get-settings', async (req, res) => {
-    const reqAuthKey = url.parse(req.url,true).query.authkey;
-    if ( reqAuthKey == process.env.authkey ) {
-        const settings = await FileService.readSettingsFile();
-        return res.json(settings || {});
-    } else {
-        res.status(401);
-        res.send('Unauthorized: Invalid authkey');
-        console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
-    }
-});
+    app.get('/get-settings', async (req, res) => {
+        const reqAuthKey = url.parse(req.url,true).query.authkey;
+        if ( reqAuthKey == process.env.authkey ) {
+            const settings = await FileService.readSettingsFile();
+            return res.json(settings || {});
+        } else {
+            res.status(401);
+            res.send('Unauthorized: Invalid authkey');
+            console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
+        }
+    });
 
-app.post('/update-settings', async (req, res) => {
-    const reqAuthKey = url.parse(req.url,true).query.authkey;
-    if ( reqAuthKey == process.env.authkey ) {
-        await FileService.setSettingsFile(req.body);
-        return res.sendStatus(200);
-    } else {
-        res.status(401);
-        res.send('Unauthorized: Invalid authkey');
-        console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
-    }
-});
+    app.post('/update-settings', async (req, res) => {
+        const reqAuthKey = url.parse(req.url,true).query.authkey;
+        if ( reqAuthKey == process.env.authkey ) {
+            await FileService.setSettingsFile(req.body);
+            return res.sendStatus(200);
+        } else {
+            res.status(401);
+            res.send('Unauthorized: Invalid authkey');
+            console.log('Unauthorized request. Must set a query parameter of authkey which matches the authkey environment variable')
+        }
+    });
 
-console.log(`Server started on port ${process.env.PORT || 3001}`);
+    console.log(`Server started on port ${process.env.PORT || 3001}`);
+};
+
+startup();
