@@ -76,8 +76,6 @@ function verifyConfigs() {
 }
 
 const startup = async function() {
-    await checkForPassword();
-    setupCronJob();
     console.log('Starting Express Server...');
 
     // Dummy express API to serve something on a port for heroku
@@ -126,6 +124,8 @@ const startup = async function() {
     });
 
     console.log(`Server started on port ${process.env.PORT || 3001}`);
+    await checkForPassword();
+    setupCronJob();
 };
 
 startup();
