@@ -7,6 +7,9 @@ verifyConfigs();
 var FileService = require('./fileService');
 var SlackService = require('./slackService');
 
+// Global to keep track of the current status
+CurrentSlackStatus = "";
+
 const checkForPassword = async function() {
     function sleep(ms) {
       return new Promise((resolve) => {

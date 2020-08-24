@@ -101,6 +101,13 @@ async function runJob() {
     const statusEvents = statusSettings.status_events;
     const fallbackStatusEvent = statusSettings.fallback_status_event;
 
+    var persistCalendarStatus = true;
+    if ( !statusSettings.persist_calendar_status || statusSettings.persist_calendar_status === false ) {
+        persistCalendarStatus = false;
+    } else {
+        persistCalendarStatus = true;
+    }
+
     for (const statusEvent of statusEvents) {
         const doesMatch = statusEvent.matching_words.some((substring) => {
             const sanitizedSubstring = substring.toLowerCase().trim();
@@ -111,20 +118,20 @@ async function runJob() {
             const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text;
             //await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
             try {
-                await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+                await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
             } catch (e) {
                 console.log(e);
             }
 
-            console.log("Updated Slack status: ", statusText, " ", statusEvent.status_emojis);
+            //console.log("Updated Slack status: ", statusText, " ", statusEvent.status_emojis);
             console.log('...Job Complete');
             return;
         }
     }
 
     // Doesn't match any of our options, we use fallback
-    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
-    console.log("Updated Slack status: ", fallbackStatusEvent.status_text, " ", fallbackStatusEvent.status_emojis);
+    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
+    //console.log("Updated Slack status: ", fallbackStatusEvent.status_text, " ", fallbackStatusEvent.status_emojis);
     console.log('...Job Complete');
 }
 

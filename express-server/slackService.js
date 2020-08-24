@@ -58,11 +58,21 @@ function sanitizeEmoji(emoji) {
     return sanitizedEmoji;
 }
 
-async function updateStatus(text, emojis, expiration) {
+async function updateStatus(text, emojis, expiration, persist) {
     const sanitizedText = text == null ? '' : text.trim();
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
+    if ( persist === false ) {
+        const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
+        if ( CurrentSlackStatus === ConcatenatedStatus ) {
+            console.log("Status is unchanged from last run. Skipping.");
+            return;
+        } else {
+            console.log("Status has changed from last run. Updating...");
+        }
+        CurrentSlackStatus = ConcatenatedStatus;
+    }
     const profile = JSON.stringify({
         status_text: sanitizedText,
         status_emoji: sanitizedEmoji,
@@ -79,6 +89,8 @@ async function updateStatus(text, emojis, expiration) {
     if ( !updateStatusUrlJsonResult.ok ) {
         console.log("Failed request: ", updateStatusUrl.href);
         console.log("Response was: ", updateStatusUrlJsonResult);
+    } else {
+        console.log("Updated Slack status: ", text, " ", emoji);
     }
 }
 
