@@ -148,7 +148,7 @@ async function sendReminderIfNecessary(events, reminders) {
     const closeEvents = events
         .filter((event) => event.endDate.getTime() - event.startDate.getTime() < 77760000) // Not all-day events
         //.filter((event) => event.startDate > currentTime && event.startDate - currentTime <= twoAndAHalfMinutes); // Starts within 2.5 minutes
-        .filter((event) => event.startDate > currentTime
+        .filter((event) => event.startDate > currentTime);
 
     if (closeEvents.length !== 0) {
         const firstEvent = closeEvents[0];
