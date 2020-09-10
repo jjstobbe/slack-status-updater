@@ -148,7 +148,7 @@ async function sendReminderIfNecessary(events) {
         //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
         if (statusSettings.reminder_at_tminus_minutes.indexOf(tminusMinutes) === -1) {
-            continue
+            continue;
         }
         if (tminusMinutes > 1) {
             var timeUnit = "minutes";
