@@ -12,6 +12,7 @@
     },
     "override_priority": ["Vacation","Sick","PTO"],
     "persist_calendar_status": false,
+    "reminder_at_tminus_minutes": [2,1],
     "status_events": [
         {
             "matching_words": [
