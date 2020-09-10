@@ -154,10 +154,10 @@ async function sendReminderIfNecessary(events, reminders) {
         //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
         console.log(`T-minus ${tminusMinutes} minute(s)`);
-        if (reminders.indexOf(tminusMinutes) === -1) {
-            console.log(`Nag skipped because ${tminusMinutes} not found in ${reminders}`);
-            return;
-        }
+//        if (reminders.indexOf(tminusMinutes) !== -1) {
+//            console.log(`Nag skipped because ${tminusMinutes} not found in ${reminders}`);
+//            return;
+//        }
         if (tminusMinutes > 1) {
             var timeUnit = "minutes";
         } else {
