@@ -29,10 +29,6 @@ rtm.on('message', async (event) => {
   await rtm.start();
 })();
 
-// Handles all slack communication
-async function clearStatus() {
-    await updateStatus('', ['']);
-}
 
 function selectRandomElement(items) {
     if (!items || items.length === 0) {
@@ -63,6 +59,7 @@ async function updateStatus(text, emojis, expiration, persist) {
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
+    console.log(`Persist: ${persist}`);
     if ( persist === false ) {
         console.log("Status will not be persisted");
         const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
@@ -142,7 +139,6 @@ async function getPassword() {
 }
 
 module.exports = {
-    clearStatus,
     updateStatus,
     sendReminder,
     getPassword
