@@ -80,7 +80,7 @@ async function runJob() {
     }
 
     //await sendReminderIfNecessary(events);
-    if (statusSettings.reminder_at_tminus_minutes) {
+    if (statusSettings.reminder_at_tminus_minutes && statusSettings.reminder_at_tminus_minutes.length !== 0) {
         var reminders = statusSettings.reminder_at_tminus_minutes;
     } else {
         var reminders = [];
