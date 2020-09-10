@@ -95,7 +95,7 @@ async function runJob() {
     }
 
     if (currentEvents.length === 0) {
-        SlackService.updateStatus('', [''], '', persistCalendarStatus);
+        await SlackService.updateStatus('', [''], '', persistCalendarStatus);
         console.log('...Job Complete');
         return;
     }

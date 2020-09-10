@@ -59,9 +59,9 @@ async function updateStatus(text, emojis, expiration, persist) {
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
-    console.log(`Persist: ${persist}`);
+    //console.log(`Persist: ${persist}`);
     if ( persist === false ) {
-        console.log("Status will not be persisted");
+        //console.log("Status will not be persisted");
         const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
         if ( CurrentSlackStatus === ConcatenatedStatus ) {
             console.log("Status is unchanged from last run. Skipping.");
@@ -81,7 +81,7 @@ async function updateStatus(text, emojis, expiration, persist) {
     const token = process.env.slackUserToken;
     updateStatusUrl.searchParams.append('token', token);
     updateStatusUrl.searchParams.append('profile', profile);
-    console.log("Params set");
+    //console.log("Params set");
     const updateStatusUrlResp = await fetch(updateStatusUrl.href);
     const updateStatusUrlJsonResult = await updateStatusUrlResp.json();
     if ( !updateStatusUrlJsonResult.ok ) {
