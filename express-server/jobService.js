@@ -156,7 +156,7 @@ async function sendReminderIfNecessary(events) {
             //await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
             await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusMinutes} ${timeUnit}.`);
         } else {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} ${timeUnit}.`);
+            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusMinutes} ${timeUnit}.`);
         }
     }
 }
