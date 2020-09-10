@@ -122,14 +122,12 @@ async function runJob() {
 
         if (doesMatch) {
             const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text;
-            //await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
             try {
                 await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
             } catch (e) {
                 console.log(e);
             }
-
-            //console.log("Updated Slack status: ", statusText, " ", statusEvent.status_emojis);
+            console.log('Normal');
             console.log('...Job Complete');
             return;
         }
@@ -137,7 +135,7 @@ async function runJob() {
 
     // Doesn't match any of our options, we use fallback
     await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
-    //console.log("Updated Slack status: ", fallbackStatusEvent.status_text, " ", fallbackStatusEvent.status_emojis);
+    console.log('Fallback');
     console.log('...Job Complete');
 }
 
