@@ -135,18 +135,21 @@ async function runJob() {
     console.log('...Job Complete');
 }
 
-const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
+//const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
 async function sendReminderIfNecessary(events) {
     const currentTime = new Date();
 
     const closeEvents = events
         .filter((event) => event.endDate.getTime() - event.startDate.getTime() < 77760000) // Not all-day events
-        .filter((event) => event.startDate > currentTime && event.startDate - currentTime <= twoAndAHalfMinutes); // Starts within 2.5 minutes
+        //.filter((event) => event.startDate > currentTime && event.startDate - currentTime <= twoAndAHalfMinutes); // Starts within 2.5 minutes
 
     if (closeEvents.length !== 0) {
         const firstEvent = closeEvents[0];
         //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
+        if (statusSettings.reminder_at_tminus_minutes.indexOf(tminusMinutes) === -1) {
+            continue
+        }
         if (tminusMinutes > 1) {
             var timeUnit = "minutes";
         } else {
