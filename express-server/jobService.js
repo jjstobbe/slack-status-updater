@@ -87,8 +87,16 @@ async function runJob() {
     }
     await sendReminderIfNecessary(events,reminders);
 
+    var persistCalendarStatus = true;
+    if ( !statusSettings.persist_calendar_status || statusSettings.persist_calendar_status === false ) {
+        persistCalendarStatus = false;
+    } else {
+        persistCalendarStatus = true;
+    }
+
     if (currentEvents.length === 0) {
         SlackService.updateStatus('', [''], '', persistCalendarStatus);
+        console.log('...Job Complete');
         return;
     }
 
@@ -106,13 +114,6 @@ async function runJob() {
 
     const statusEvents = statusSettings.status_events;
     const fallbackStatusEvent = statusSettings.fallback_status_event;
-
-    var persistCalendarStatus = true;
-    if ( !statusSettings.persist_calendar_status || statusSettings.persist_calendar_status === false ) {
-        persistCalendarStatus = false;
-    } else {
-        persistCalendarStatus = true;
-    }
 
     for (const statusEvent of statusEvents) {
         const doesMatch = statusEvent.matching_words.some((substring) => {
