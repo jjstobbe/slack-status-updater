@@ -80,7 +80,12 @@ async function runJob() {
     }
 
     //await sendReminderIfNecessary(events);
-    await sendReminderIfNecessary(events,statusSettings.reminder_at_tminus_minutes);
+    if (statusSettings.reminder_at_tminus_minutes) {
+        var reminders = statusSettings.reminder_at_tminus_minutes;
+    } else {
+        var reminders = [];
+    }
+    await sendReminderIfNecessary(events,reminders);
 
     if (currentEvents.length === 0) {
         await SlackService.clearStatus();
