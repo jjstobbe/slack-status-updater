@@ -88,7 +88,7 @@ async function runJob() {
     await sendReminderIfNecessary(events,reminders);
 
     if (currentEvents.length === 0) {
-        await SlackService.clearStatus();
+        SlackService.updateStatus('', [''], '', persistCalendarStatus);
         return;
     }
 
@@ -127,7 +127,6 @@ async function runJob() {
             } catch (e) {
                 console.log(e);
             }
-            console.log('Normal');
             console.log('...Job Complete');
             return;
         }
@@ -135,7 +134,6 @@ async function runJob() {
 
     // Doesn't match any of our options, we use fallback
     await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime, persistCalendarStatus);
-    console.log('Fallback');
     console.log('...Job Complete');
 }
 
