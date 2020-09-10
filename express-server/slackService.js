@@ -11,7 +11,6 @@ const { WebClient } = require('@slack/web-api');
 const web = new WebClient(botToken);
 
 rtm.on('message', async (event) => {
-    //console.log(event);
     if ( event.user ) {
         if (process.env.password_requested == "true") {
             process.env.password_requested = "false";
@@ -59,9 +58,7 @@ async function updateStatus(text, emojis, expiration, persist) {
     const emoji = selectRandomElement(emojis);
     const sanitizedEmoji = sanitizeEmoji(emoji);
 
-    //console.log(`Persist: ${persist}`);
     if ( persist === false ) {
-        //console.log("Status will not be persisted");
         const ConcatenatedStatus = sanitizedText + sanitizedEmoji;
         if ( CurrentSlackStatus === ConcatenatedStatus ) {
             console.log("Status is unchanged from last run. Skipping.");
@@ -81,7 +78,7 @@ async function updateStatus(text, emojis, expiration, persist) {
     const token = process.env.slackUserToken;
     updateStatusUrl.searchParams.append('token', token);
     updateStatusUrl.searchParams.append('profile', profile);
-    //console.log("Params set");
+
     const updateStatusUrlResp = await fetch(updateStatusUrl.href);
     const updateStatusUrlJsonResult = await updateStatusUrlResp.json();
     if ( !updateStatusUrlJsonResult.ok ) {
@@ -123,11 +120,9 @@ async function sendReminder(message) {
 
 async function getPassword() {
     if (process.env.password_requested != "true") {
-        //console.log('process.env.slackUserId:',process.env.slackUserId);
         var result = await web.conversations.open({
             users: process.env.slackUserId
         });
-        //console.log('result.channel.id:',result.channel.id);
         channelId = result.channel.id;
         sendText = `It seems that I'm unable to log in to Exchange/O365 with your username of ${process.env.exchange_username}. I've temporarily stopped trying to log in prevent an account lock-out.\nPlease respond with your password to login.`;
         var result = await web.chat.postMessage({

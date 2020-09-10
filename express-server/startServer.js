@@ -7,8 +7,8 @@ verifyConfigs();
 var FileService = require('./fileService');
 var SlackService = require('./slackService');
 
-// Global to keep track of the current status
-CurrentSlackStatus = "";
+// Global to keep track of the current status. Set to something random so that it always updates on the first run.
+CurrentSlackStatus = "MyFlyingMonkeysButtsAreBetterThanYours";
 
 const checkForPassword = async function() {
     function sleep(ms) {
