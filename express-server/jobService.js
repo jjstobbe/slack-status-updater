@@ -79,7 +79,13 @@ async function runJob() {
         }
     }
 
-    await sendReminderIfNecessary(events);
+    //await sendReminderIfNecessary(events);
+    if (statusSettings.reminder_at_tminus_minutes) {
+        var reminders = statusSettings.reminder_at_tminus_minutes;
+    } else {
+        var reminders = [];
+    }
+    await sendReminderIfNecessary(events,reminders);
 
     if (currentEvents.length === 0) {
         await SlackService.clearStatus();
@@ -135,21 +141,28 @@ async function runJob() {
     console.log('...Job Complete');
 }
 
-const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
-async function sendReminderIfNecessary(events) {
+async function sendReminderIfNecessary(events, reminders) {
     const currentTime = new Date();
 
     const closeEvents = events
         .filter((event) => event.endDate.getTime() - event.startDate.getTime() < 77760000) // Not all-day events
-        .filter((event) => event.startDate > currentTime && event.startDate - currentTime <= twoAndAHalfMinutes); // Starts within 2.5 minutes
+        .filter((event) => event.startDate > currentTime); // Event is in the... FUTURE!
 
     if (closeEvents.length !== 0) {
         const firstEvent = closeEvents[0];
-        const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
-        if (firstEvent.location) {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
+        const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
+        if (reminders.indexOf(tminusMinutes) === -1) {
+            return;
+        }
+        if (tminusMinutes > 1) {
+            var timeUnit = "minutes";
         } else {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} seconds`);
+            var timeUnit = "minute";
+        }
+        if (firstEvent.location) {
+            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusMinutes} ${timeUnit}.`);
+        } else {
+            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusMinutes} ${timeUnit}.`);
         }
     }
 }

@@ -113,6 +113,7 @@ To update from this repo, simply:
   - matching_words: **Array** of event subjects you wish to ignore, leaving your Slack status unchanged.
 - override_priority: **Array** of event subjects, ordered by priority, which take precedence over any other conflicting event.
 - persist_calendar_status: **Boolean** (true/false) Enables or disables persistent Slack status updates. If disabled/false, changes manually you make to your Slack status will remain in place until a calendar event starts or expires. If enabled/true, manual status changes will be overridden.
+- reminder_at_tminus_minutes: **Array** List the numbers of minutes before a meeting in which you want to receive a nag about the upcoming meeting in Slack. For example: `[5,2,1]` would remind you at 5 minutes, 2 minutes, and 1 minutes before a meeting. Remove this setting or set this to `[]` if you wish to disable the reminder nags.
 - status_events (**Array**)
   - For each array element...
     - matching_words: **Array** of words or phrases that would match a specific calendar subjects' event type (ie, for vacation events, "Vacation", "PTO", "Time Off")
