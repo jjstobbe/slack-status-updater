@@ -79,7 +79,8 @@ async function runJob() {
         }
     }
 
-    await sendReminderIfNecessary(events);
+    //await sendReminderIfNecessary(events);
+    await sendReminderIfNecessary(events,statusSettings.reminder_at_tminus_minutes);
 
     if (currentEvents.length === 0) {
         await SlackService.clearStatus();
@@ -136,7 +137,7 @@ async function runJob() {
 }
 
 //const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
-async function sendReminderIfNecessary(events) {
+async function sendReminderIfNecessary(events, reminders) {
     const currentTime = new Date();
 
     const closeEvents = events
@@ -147,7 +148,7 @@ async function sendReminderIfNecessary(events) {
         const firstEvent = closeEvents[0];
         //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
-        if (statusSettings.reminder_at_tminus_minutes.indexOf(tminusMinutes) === -1) {
+        if (reminders.indexOf(tminusMinutes) === -1) {
             return;
         }
         if (tminusMinutes > 1) {
