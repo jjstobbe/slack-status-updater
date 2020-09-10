@@ -141,22 +141,17 @@ async function runJob() {
     console.log('...Job Complete');
 }
 
-//const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
 async function sendReminderIfNecessary(events, reminders) {
     const currentTime = new Date();
 
     const closeEvents = events
         .filter((event) => event.endDate.getTime() - event.startDate.getTime() < 77760000) // Not all-day events
-        //.filter((event) => event.startDate > currentTime && event.startDate - currentTime <= twoAndAHalfMinutes); // Starts within 2.5 minutes
-        .filter((event) => event.startDate > currentTime);
+        .filter((event) => event.startDate > currentTime); // Event is in the... FUTURE!
 
     if (closeEvents.length !== 0) {
         const firstEvent = closeEvents[0];
-        //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
-        console.log(`T-minus ${tminusMinutes} minute(s)`);
         if (reminders.indexOf(tminusMinutes) === -1) {
-            console.log(`Nag skipped because ${tminusMinutes} not found in ${reminders}`);
             return;
         }
         if (tminusMinutes > 1) {
@@ -165,7 +160,6 @@ async function sendReminderIfNecessary(events, reminders) {
             var timeUnit = "minute";
         }
         if (firstEvent.location) {
-            //await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
             await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusMinutes} ${timeUnit}.`);
         } else {
             await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusMinutes} ${timeUnit}.`);
