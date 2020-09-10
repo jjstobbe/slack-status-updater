@@ -145,11 +145,18 @@ async function sendReminderIfNecessary(events) {
 
     if (closeEvents.length !== 0) {
         const firstEvent = closeEvents[0];
-        const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
-        if (firstEvent.location) {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
+        //const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
+        const tminusMinutes = Math.round((firstEvent.startDate - currentTime) / 1000 / 60);
+        if (tminusMinutes > 1) {
+            const timeUnit = "minutes";
         } else {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} seconds`);
+            const timeUnit = "minute";
+        }
+        if (firstEvent.location) {
+            //await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
+            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusMinutes} ${timeUnit}.`);
+        } else {
+            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} ${timeUnit}.`);
         }
     }
 }
