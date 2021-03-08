@@ -38,9 +38,9 @@ function verifyConfigs() {
     try {
         settingsFile = require('../config/settings.json');
     } catch (e) {
-        console.error(e);
+        console.log('No settings file found, relying only on env variables.');
     }
-    const necessaryConfigs = ['isProduction', 'office365username', 'office365password', 'slackBotToken', 'slackUserToken', 'mongoUri'];
+    const necessaryConfigs = ['isProduction', 'office365username', 'office365password', 'slackBotToken', 'reminderUserId', 'slackUserToken', 'mongoUri'];
 
     necessaryConfigs.forEach((configKey) => {
         // Set process env vars based on settings file

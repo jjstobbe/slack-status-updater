@@ -51,13 +51,14 @@ async function updateStatus(text, emojis, expiration) {
 async function sendReminder(message) {
     const token = process.env.slackBotToken;
     const userId = process.env.reminderUserId;
-    const openIm = new URL('http://slack.com/api/im.open');
+    const openConversation = new URL('http://slack.com/api/conversations.open');
 
-    openIm.searchParams.append('token', token);
-    openIm.searchParams.append('user', userId);
+    openConversation.searchParams.append('token', token);
+    openConversation.searchParams.append('users', userId);
 
-    const userInformation = await fetch(openIm.href);
+    const userInformation = await fetch(openConversation.href);
     const jsonResult = await userInformation.json();
+
     const channel = jsonResult.channel.id;
 
     const messageUrl = new URL('http://slack.com/api/chat.postMessage');
