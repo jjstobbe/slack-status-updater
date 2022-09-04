@@ -1,52 +1,46 @@
-# Slack Status Updater!
+# Getting Started with Create React App
 
-## Overview
-_Do you waste time setting your slack status multiple times a day?_
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-_Do you want to let your coworkers know if you're available?_
+## Available Scripts
 
-_Do you want to automate literally everything in your life?_
+In the project directory, you can run:
 
-Then this is the app for you!
+### `yarn start`
 
-This app reads your calendar and sets your corresponding slack status automatically!
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Features
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-- You can set custom emojis and/or text on the status.
-- Automatically expires when the meeting is scheduled to end.
-- It refreshes every 2 minutes to take into account your latest calendar changes
+### `yarn test`
 
-## Setup
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-Best part of all, it's completely free! This app is designed to run on Heroku's free tier of servers!
+### `yarn build`
 
-1) Spin up a new project on [heroku](https://devcenter.heroku.com/articles/free-dyno-hours)
-2) git clone this repository onto the new heroku server
-3) Set these 5 config vars
-    - office365username
-    - office365password
-    - mongoUri (with slack-status-updater db and slack-status collection)
-    - slackBotToken (with im.write permissions)
-    - slackUserToken (with users.profile:write permissions)
-    - reminderUserId (userId of user to send reminders to)
-4) Setup the [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) add-on to run every morning when you need your status updated
-    - Mine runs "Every day at..." "01:00 PM UTC"
-    - Run Command: "npm run start"
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Contributing
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jjstobbe/slack-status-updater/issues)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Author
+### `yarn eject`
 
-**Jack Stobbe**
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-* [github/](https://github.com/jjstobbe)
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-## License
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-Copyright © 2019 [Jack Stobbe](https://jjstobbe.github.io)
-Licensed under the MIT license.
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-***
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

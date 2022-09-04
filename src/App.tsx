@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// @ts-ignore
 import JSONInput from 'react-json-editor-ajrm';
 import './App.css';
 
@@ -16,7 +17,7 @@ const App = () => {
         fetchSettings();
     }, []);
 
-    const onChangeJSON = async (result) => {
+    const onChangeJSON = async (result: any) => {
         console.log(result);
 
         if (result.errors) {
