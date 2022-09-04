@@ -1,6 +1,7 @@
 import { Handler } from "@netlify/functions";
 import { runSlackStatusUpdaterJob } from "../../services/jobService";
 
+// Used for manually updating my status
 const handler: Handler = async (event, context) => {
     await runSlackStatusUpdaterJob();
 
