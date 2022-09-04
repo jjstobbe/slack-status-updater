@@ -1,4 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 const uri = process.env.MONGO_URI;
 
 interface CalendarSettings {

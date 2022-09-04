@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.0",
     "mongodb": "3.4.1",
     "netlify": "^12.0.1",
+    "node-fetch": "2.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-json-editor-ajrm": "2.5.9",

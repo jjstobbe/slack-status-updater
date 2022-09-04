@@ -1,22 +1,12 @@
-var CalendarService = require('./calendarService');
-var SlackService = require('./slackService');
-var FileService = require('./fileService');
+import { clearStatus, updateStatus, sendReminder } from './slackService';
+import { readSettingsFile } from "./fileService";
+import { fetchCalendarEvents } from './calendarService';
 
-function checkSubjectForTitle(subject) {
-    const splitSubject = subject.split(' - ');
-
-    if (splitSubject.length !== 2) {
-        return subject;
-    }
-
-    return splitSubject[1];
-}
-
-async function runJob() {
+export const runSlackStatusUpdaterJob = async () => {
     console.log('Running Job..');
 
-    const events = await CalendarService.fetchCalendarEvents();
-    const statusSettings = await FileService.readSettingsFile();
+    const events = await fetchCalendarEvents();
+    const statusSettings = await readSettingsFile();
 
     if (!statusSettings) {
         console.error('No settings file found, stopping execution.');
@@ -47,7 +37,7 @@ async function runJob() {
     await sendReminderIfNecessary(events);
 
     if (currentEvents.length === 0) {
-        await SlackService.clearStatus();
+        await clearStatus();
         return;
     }
 
@@ -74,18 +64,28 @@ async function runJob() {
 
         if (doesMatch) {
             const statusText = statusEvent.check_for_status_in_title ? checkSubjectForTitle(primaryEvent.subject) : statusEvent.status_text;
-            await SlackService.updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+            await updateStatus(statusText, statusEvent.status_emojis, hasAllDayEvent ? null : endTime);
             return;
         }
     }
 
     // Doesn't match any of our options, we use fallback
-    await SlackService.updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+    await updateStatus(fallbackStatusEvent.status_text, fallbackStatusEvent.status_emojis, hasAllDayEvent ? null : endTime);
+}
+
+const checkSubjectForTitle = (subject) => {
+    const splitSubject = subject.split(' - ');
+
+    if (splitSubject.length !== 2) {
+        return subject;
+    }
+
+    return splitSubject[1];
 }
 
 const twoAndAHalfMinutes = 1000 * 60 * 2.5; // in ms
-async function sendReminderIfNecessary(events) {
-    const currentTime = new Date();
+const sendReminderIfNecessary = async (events) => {
+    const currentTime = (new Date()).getTime();
 
     const closeEvents = events
         .filter((event) => event.endDate.getTime() - event.startDate.getTime() < 77760000) // Not all-day events
@@ -95,13 +95,9 @@ async function sendReminderIfNecessary(events) {
         const firstEvent = closeEvents[0];
         const tminusSeconds = (firstEvent.startDate - currentTime) / 1000;
         if (firstEvent.location) {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
+            await sendReminder(`Reminder: ${firstEvent.subject} in ${firstEvent.location} starts in ${tminusSeconds} seconds`);
         } else {
-            await SlackService.sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} seconds`);
+            await sendReminder(`Reminder: ${firstEvent.subject} starts in ${tminusSeconds} seconds`);
         }
     }
 }
-
-module.exports = {
-    runJob
-};
