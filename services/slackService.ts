@@ -19,8 +19,7 @@ export const updateStatus = async (text: string | null, emojis?: Array<string>, 
     const token = process.env.SLACK_USER_TOKEN;
 
     if (!token) {
-        console.error('No SLACK_USER_TOKEN environment variable');
-        return;
+        throw new Error('No SLACK_USER_TOKEN environment variable');
     }
 
     updateStatusUrl.searchParams.append('token', token);
@@ -32,14 +31,12 @@ export const updateStatus = async (text: string | null, emojis?: Array<string>, 
 export const sendReminder = async (message: string) => {
     const botToken = process.env.SLACK_BOT_TOKEN;
     if (!botToken) {
-        console.error('No SLACK_BOT_TOKEN environment variable');
-        return;
+        throw new Error('No SLACK_BOT_TOKEN environment variable');
     }
 
     const userId = process.env.REMINDER_USER_ID;
     if (!userId) {
-        console.error('No REMINDER_USER_ID environment variable');
-        return;
+        throw new Error('No REMINDER_USER_ID environment variable');
     }
 
     const openConversation = new URL('http://slack.com/api/conversations.open');

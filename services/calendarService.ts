@@ -15,12 +15,7 @@ export const fetchCalendarEvents = async (): Promise<Array<CalendarItem>> => {
     let tomorrowsDate = new Date();
     tomorrowsDate.setDate(currentDate.getDate() + 1);
 
-    try {
-        return await tryFetchCalendarEvents(currentDate, tomorrowsDate);;
-    } catch (ex) {
-        console.log(ex);
-        return [];
-    }
+    return await tryFetchCalendarEvents(currentDate, tomorrowsDate);;
 }
 
 const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
@@ -29,8 +24,7 @@ const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
     try {
         const tokens = await getTokens();
         if (!tokens) {
-            console.error('No tokens found');
-            return;
+            throw new Error('No tokens found');
         }
     
         let response = await makeCalendarRequest(calendarUrl, tokens.accessToken);
@@ -38,16 +32,14 @@ const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
         if (response.status == 401) {
             const newTokens = await refreshAccessToken(tokens._id, tokens.refreshToken);
             if (!newTokens) {
-                console.error('No tokens found');
-                return;
+                throw new Error('No tokens found');
             }
         
             response = await makeCalendarRequest(calendarUrl, newTokens.accessToken);
             
             // If we're still unauthorized, just fail
             if (response.status == 401) {
-                console.error("Still unauthorized after attempting to refresh access token - won't continue");
-                return null;   
+                throw new Error("Still unauthorized after attempting to refresh access token - won't continue");
             }
         }
 
@@ -55,8 +47,7 @@ const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
         
         return responseJson.value.map(sanitizeCalendarItem);
     } catch (e) {
-        console.error('There was a problem fetching calendar events', e);
-        return;
+        throw new Error("There was a problem fetching calendar events", e);
     }
 }
 
@@ -75,18 +66,15 @@ const makeCalendarRequest = async (calendarUrl: URL, accessToken: string) => {
 
 const refreshAccessToken = async (_id: string, refreshToken: string) => {
     if (!process.env.CLIENT_ID) {
-        console.error('No CLIENT_ID environment variable');
-        return;
+        throw new Error('No CLIENT_ID environment variable');
     }
     if (!process.env.CLIENT_SECRET) {
-        console.error('No CLIENT_SECRET environment variable');
-        return;
+        throw new Error('No CLIENT_SECRET environment variable');
     }
 
     if (!refreshToken) {
         if (!process.env.REFRESH_TOKEN) {
-            console.error('No REFRESH_TOKEN environment variable');
-            return;
+            throw new Error('No REFRESH_TOKEN environment variable');
         }
     
         refreshToken = process.env.REFRESH_TOKEN;
@@ -124,8 +112,7 @@ const refreshAccessToken = async (_id: string, refreshToken: string) => {
             refreshToken: responseJson.refresh_token,
         };
     } catch (e) {
-        console.error('There was a problem fetching a new token', e);
-        return;
+        throw new Error('There was a problem fetching a new token', e);
     }
 };
 

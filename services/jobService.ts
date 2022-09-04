@@ -9,8 +9,7 @@ export const runSlackStatusUpdaterJob = async () => {
     const statusSettings = await readSettingsFile();
 
     if (!statusSettings) {
-        console.error('No settings file found, stopping execution.');
-        return;
+        throw new Error('No settings file found, stopping execution.');
     }
 
     const currentTime = new Date();
