@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import JSONInput from 'react-json-editor-ajrm';
 import './App.css';
 
 const App = () => {
+    const isFetching = useRef(false);
     const [settings, setSettings] = useState({});
 
     useEffect(() => {
         const fetchSettings = async () => {
-            const response = await fetch('/get-settings');
+            const response = await fetch('/.netlify/functions/get-settings');
             const result = await response.json();
 
             setSettings(result);
+            isFetching.current = false;
         };
 
-        fetchSettings();
+        if (!isFetching.current) {
+            isFetching.current = true;
+            fetchSettings();
+        }
     }, []);
 
     const onChangeJSON = async (result: any) => {
@@ -28,7 +33,7 @@ const App = () => {
     };
 
     const onSaveJSON = async () => {
-        await fetch('/update-settings', {
+        await fetch('/.netlify/functions/update-settings', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

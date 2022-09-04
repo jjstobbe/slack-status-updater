@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Added for this project
 /config/settings.json
+
+# Local Netlify folder
+.netlify
