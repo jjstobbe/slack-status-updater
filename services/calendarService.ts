@@ -8,18 +8,8 @@ interface CalendarItem {
     location: string;
 }
 
-export const fetchCalendarEvents = async (): Promise<Array<CalendarItem>> => {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-
-    let tomorrowsDate = new Date();
-    tomorrowsDate.setDate(currentDate.getDate() + 1);
-
-    return await tryFetchCalendarEvents(currentDate, tomorrowsDate);;
-}
-
-const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
-    const calendarUrl = getCalendarUrl(startDate, endDate);
+export const fetchCalendarEvents = async () => {
+    const calendarUrl = getCalendarUrl();
 
     try {
         const tokens = await getTokens();
@@ -45,19 +35,17 @@ const tryFetchCalendarEvents = async (startDate: Date, endDate: Date) => {
 
         const responseJson = await response.json();
         
-        return responseJson.value.map(sanitizeCalendarItem);
+        return responseJson.value?.map(sanitizeCalendarItem) || [];
     } catch (e) {
+        console.error(e);
         throw new Error("There was a problem fetching calendar events", e);
     }
 }
 
 const makeCalendarRequest = async (calendarUrl: URL, accessToken: string) => {
-    const timeZone = process.env.TIMEZONE || "Central Standard Time";
-
     const response = await fetch(calendarUrl, {
         headers: {
             'Authorization': `Bearer ${accessToken}`,
-            'Prefer': `outlook.timezone="${timeZone}"`,
         }
     });
 
@@ -116,8 +104,14 @@ const refreshAccessToken = async (_id: string, refreshToken: string) => {
     }
 };
 
-const getCalendarUrl = (startDate: Date, endDate: Date): URL => {
-    const calendarUrl = new URL(`https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime=${formatDate(startDate)}&endDateTime=${formatDate(endDate)}`);
+const getCalendarUrl = (): URL => {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    let tomorrowsDate = new Date();
+    tomorrowsDate.setDate(currentDate.getDate() + 1);
+
+    const calendarUrl = new URL(`https://graph.microsoft.com/v1.0/me/calendar/calendarView?startDateTime=${formatDate(currentDate)}&endDateTime=${formatDate(tomorrowsDate)}`);
     return calendarUrl;
 }
 
@@ -130,8 +124,8 @@ const formatDate = (date: Date): string => {
 
 const sanitizeCalendarItem = (item: any): CalendarItem => ({
     subject: item.subject,
-    startDate: new Date(item.start.dateTime),
-    endDate: new Date(item.end.dateTime),
+    startDate: new Date(`${item.start.dateTime}Z`),
+    endDate: new Date(`${item.end.dateTime}Z`),
     location: item.location.displayName
 });
 
